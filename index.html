@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Revoluções Brasileiras — Trabalho Escolar</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <script>
+    (function() {
+      const t = localStorage.getItem('tema') || 'claro';
+      document.documentElement.setAttribute('data-tema', t);
+    })();
+  </script>
+</head>
+<body>
+
+  <header>
+    <div class="tema-toggle-bar">
+      <button class="tema-btn" onclick="definirTema('claro')" title="Modo Claro">☀️ Claro</button>
+      <button class="tema-btn" onclick="definirTema('escuro')" title="Modo Escuro">🌙 Escuro</button>
+      <button class="tema-btn" onclick="definirTema('contraste')" title="Alto Contraste">⚡ Contraste</button>
+    </div>
+
+    <div class="header-top">
+      <p class="header-eyebrow">Trabalho Escolar · História do Brasil</p>
+      <h1 class="header-title">Revoluções <span>Brasileiras</span></h1>
+      <p class="header-subtitle">Uma jornada pelos momentos que moldaram o Brasil</p>
+    </div>
+
+    <nav>
+      <button class="tab ativo" onclick="selecionarAba(this, 'Inconfidência Mineira')">
+        Inconfidência Mineira
+        <span class="ano">1789</span>
+      </button>
+      <button class="tab" onclick="selecionarAba(this, 'Revolução Pernambucana')">
+        Revolução Pernambucana
+        <span class="ano">1817</span>
+      </button>
+      <button class="tab" onclick="selecionarAba(this, 'Independência do Brasil')">
+        Independência do Brasil
+        <span class="ano">1822</span>
+      </button>
+      <button class="tab" onclick="selecionarAba(this, 'Revolução Farroupilha')">
+        Revolução Farroupilha
+        <span class="ano">1835–1845</span>
+      </button>
+      <button class="tab" onclick="selecionarAba(this, 'Proclamação da República')">
+        Proclamação da República
+        <span class="ano">1889</span>
+      </button>
+      <button class="tab" onclick="selecionarAba(this, 'Revolução de 1930')">
+        Revolução de 1930
+        <span class="ano">1930</span>
+      </button>
+      <button class="tab" onclick="selecionarAba(this, 'Revolução Constitucionalista')">
+        Revolução Constitucionalista
+        <span class="ano">1932</span>
+      </button>
+    </nav>
+  </header>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span class="divider-icon">✦</span>
+    <span class="breadcrumb">Exibindo: <strong id="aba-atual">Inconfidência Mineira</strong></span>
+    <span class="divider-icon">✦</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <main>
+
+    <!--
+    
+      DIV PRINCIPAL — cole aqui o código do site externo    
+      ou injete via JavaScript usando:                      
+      document.getElementById('conteudo-externo').innerHTML 
+    -->
+    <div id="conteudo-externo">
+      <div class="placeholder">
+        <div class="placeholder-icon">📜</div>
+        <p class="placeholder-titulo">Área de conteúdo</p>
+        <p class="placeholder-desc">
+          Cole o código do site externo dentro da div<br>
+          <code class="destaque">#conteudo-externo</code><br>
+          no arquivo HTML
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>Trabalho escolar de <strong>História do Brasil</strong> · Ensino Médio</p>
+  </footer>
+
+  <script>
+    function definirTema(tema) {
+      document.documentElement.setAttribute('data-tema', tema);
+      localStorage.setItem('tema', tema);
+      document.querySelectorAll('.tema-btn').forEach(b => b.classList.remove('ativo'));
+      const labels = { claro: 'Claro', escuro: 'Escuro', contraste: 'Contraste' };
+      document.querySelectorAll('.tema-btn').forEach(b => {
+        if (b.textContent.includes(labels[tema])) b.classList.add('ativo');
+      });
+    }
+
+    // Marca o botão ativo ao carregar
+    window.addEventListener('DOMContentLoaded', () => {
+      const atual = document.documentElement.getAttribute('data-tema') || 'claro';
+      definirTema(atual);
+    });
+
+    function selecionarAba(botao, nomeAba) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('ativo'));
+      botao.classList.add('ativo');
+      document.getElementById('aba-atual').textContent = nomeAba;
+    }
+  </script>
+
+</body>
+</html>
