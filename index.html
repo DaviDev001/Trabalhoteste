@@ -1,122 +1,871 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Revoluções Brasileiras — Trabalho Escolar</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet" />
-  <script>
-    (function() {
-      const t = localStorage.getItem('tema') || 'claro';
-      document.documentElement.setAttribute('data-tema', t);
-    })();
-  </script>
-</head>
-<body>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+img { display: block; max-width: 100%; }
 
-  <header>
-    <div class="tema-toggle-bar">
-      <button class="tema-btn" onclick="definirTema('claro')" title="Modo Claro">☀️ Claro</button>
-      <button class="tema-btn" onclick="definirTema('escuro')" title="Modo Escuro">🌙 Escuro</button>
-      <button class="tema-btn" onclick="definirTema('contraste')" title="Alto Contraste">⚡ Contraste</button>
-    </div>
+/* ── TEMA CLARO (padrão) ── */
+:root, [data-tema="claro"] {
+  --verde: #1a4a2e;
+  --verde-claro: #2d7a4a;
+  --verde-pale: #e8f5ee;
+  --ouro: #c9a227;
+  --ouro-claro: #f0d060;
+  --ouro-pale: #fdf8e8;
+  --creme: #faf6f0;
+  --texto: #1e1a14;
+  --texto-sec: #5a4f3f;
+  --borda: #d4c5a9;
+  --header-bg: #1a4a2e;
+  --nav-tab-color: rgba(255,255,255,0.7);
+  --nav-tab-ativo-bg: rgba(201,162,39,0.1);
+  --divider-bg: #fdf8e8;
+  --footer-bg: #e8f5ee;
+  --card-bg: #ffffff;
+  --code-bg: #e8f5ee;
+  --code-color: #1a4a2e;
+}
 
-    <div class="header-top">
-      <p class="header-eyebrow">Trabalho Escolar · História do Brasil</p>
-      <h1 class="header-title">Revoluções <span>Brasileiras</span></h1>
-      <p class="header-subtitle">Uma jornada pelos momentos que moldaram o Brasil</p>
-    </div>
+/* ── TEMA ESCURO ── */
+[data-tema="escuro"] {
+  --verde: #4ecb7a;
+  --verde-claro: #6ee89a;
+  --verde-pale: #0d2e1a;
+  --ouro: #e8b84b;
+  --ouro-claro: #f5d070;
+  --ouro-pale: #1e1800;
+  --creme: #121212;
+  --texto: #f0ece4;
+  --texto-sec: #b0a890;
+  --borda: #3a3020;
+  --header-bg: #0a1f10;
+  --nav-tab-color: rgba(255,255,255,0.55);
+  --nav-tab-ativo-bg: rgba(232,184,75,0.15);
+  --divider-bg: #1a1400;
+  --footer-bg: #0d1a0f;
+  --card-bg: #1e1e1e;
+  --code-bg: #0d2e1a;
+  --code-color: #4ecb7a;
+}
 
-    <nav>
-      <button class="tab ativo" onclick="selecionarAba(this, 'Inconfidência Mineira')">
-        Inconfidência Mineira
-        <span class="ano">1789</span>
-      </button>
-      <button class="tab" onclick="selecionarAba(this, 'Revolução Pernambucana')">
-        Revolução Pernambucana
-        <span class="ano">1817</span>
-      </button>
-      <button class="tab" onclick="selecionarAba(this, 'Independência do Brasil')">
-        Independência do Brasil
-        <span class="ano">1822</span>
-      </button>
-      <button class="tab" onclick="selecionarAba(this, 'Revolução Farroupilha')">
-        Revolução Farroupilha
-        <span class="ano">1835–1845</span>
-      </button>
-      <button class="tab" onclick="selecionarAba(this, 'Proclamação da República')">
-        Proclamação da República
-        <span class="ano">1889</span>
-      </button>
-      <button class="tab" onclick="selecionarAba(this, 'Revolução de 1930')">
-        Revolução de 1930
-        <span class="ano">1930</span>
-      </button>
-      <button class="tab" onclick="selecionarAba(this, 'Revolução Constitucionalista')">
-        Revolução Constitucionalista
-        <span class="ano">1932</span>
-      </button>
-    </nav>
-  </header>
+/* ── ALTO CONTRASTE ── */
+[data-tema="contraste"] {
+  --verde: #000000;
+  --verde-claro: #000000;
+  --verde-pale: #ffffff;
+  --ouro: #ffdd00;
+  --ouro-claro: #ffee44;
+  --ouro-pale: #ffffcc;
+  --creme: #ffffff;
+  --texto: #000000;
+  --texto-sec: #000000;
+  --borda: #000000;
+  --header-bg: #000000;
+  --nav-tab-color: #ffffff;
+  --nav-tab-ativo-bg: rgba(255,238,0,0.3);
+  --divider-bg: #ffffcc;
+  --footer-bg: #f0f0f0;
+  --card-bg: #ffffff;
+  --code-bg: #ffffcc;
+  --code-color: #000000;
+}
 
-  <div class="divider">
-    <div class="divider-line"></div>
-    <span class="divider-icon">✦</span>
-    <span class="breadcrumb">Exibindo: <strong id="aba-atual">Inconfidência Mineira</strong></span>
-    <span class="divider-icon">✦</span>
-    <div class="divider-line"></div>
-  </div>
+body {
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  background-color: var(--creme);
+  color: var(--texto);
+  min-height: 100vh;
+}
 
-  <main>
+/* ── HEADER ── */
+header {
+  background: var(--header-bg);
+  padding: 2rem 2rem 0;
+  position: relative;
+  overflow: hidden;
+}
 
-    <!--
-    
-      DIV PRINCIPAL — cole aqui o código do site externo    
-      ou injete via JavaScript usando:                      
-      document.getElementById('conteudo-externo').innerHTML 
-    -->
-    <div id="conteudo-externo">
-      <div class="placeholder">
-        <div class="placeholder-icon">📜</div>
-        <p class="placeholder-titulo">Área de conteúdo</p>
-        <p class="placeholder-desc">
-          Cole o código do site externo dentro da div<br>
-          <code class="destaque">#conteudo-externo</code><br>
-          no arquivo HTML
-        </p>
-      </div>
-    </div>
+header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 40px,
+    rgba(201,162,39,0.05) 40px,
+    rgba(201,162,39,0.05) 80px
+  );
+  pointer-events: none;
+}
 
-  </main>
+.header-top {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
 
-  <footer>
-    <p>Trabalho escolar de <strong>História do Brasil</strong> · Ensino Médio</p>
-  </footer>
+.header-eyebrow {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ouro-claro);
+  margin-bottom: 0.5rem;
+  opacity: 0.85;
+}
 
-  <script>
-    function definirTema(tema) {
-      document.documentElement.setAttribute('data-tema', tema);
-      localStorage.setItem('tema', tema);
-      document.querySelectorAll('.tema-btn').forEach(b => b.classList.remove('ativo'));
-      const labels = { claro: 'Claro', escuro: 'Escuro', contraste: 'Contraste' };
-      document.querySelectorAll('.tema-btn').forEach(b => {
-        if (b.textContent.includes(labels[tema])) b.classList.add('ativo');
-      });
-    }
+.header-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.1;
+}
 
-    // Marca o botão ativo ao carregar
-    window.addEventListener('DOMContentLoaded', () => {
-      const atual = document.documentElement.getAttribute('data-tema') || 'claro';
-      definirTema(atual);
-    });
+.header-title span {
+  color: var(--ouro-claro);
+}
 
-    function selecionarAba(botao, nomeAba) {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('ativo'));
-      botao.classList.add('ativo');
-      document.getElementById('aba-atual').textContent = nomeAba;
-    }
-  </script>
+.header-subtitle {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.65);
+  margin-top: 0.4rem;
+  font-style: italic;
+}
 
-</body>
-</html>
+/* ── NAV TABS ── */
+nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+  position: relative;
+  margin-top: 1rem;
+}
+
+.tab {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--nav-tab-color);
+  padding: 0.75rem 1.4rem;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  border-bottom: 3px solid transparent;
+  transition: all 0.25s ease;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.tab:hover {
+  color: var(--ouro-claro);
+  background: rgba(255,255,255,0.05);
+}
+
+.tab.ativo {
+  color: var(--ouro-claro);
+  border-bottom-color: var(--ouro);
+  background: var(--nav-tab-ativo-bg);
+}
+
+.tab .ano {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 300;
+  opacity: 0.7;
+  letter-spacing: 0.05em;
+  font-style: italic;
+}
+
+/* ── DECORATIVE DIVIDER ── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 2rem;
+  background: var(--divider-bg);
+  border-bottom: 1px solid var(--borda);
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--ouro), transparent);
+}
+
+.divider-icon {
+  color: var(--ouro);
+  font-size: 1.2rem;
+}
+
+.breadcrumb {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.85rem;
+  color: var(--texto-sec);
+  font-style: italic;
+}
+
+.breadcrumb strong {
+  color: var(--verde);
+  font-style: normal;
+}
+
+/* ── ÁREA DE CONTEÚDO PRINCIPAL ── */
+#conteudo-externo {
+  width: 100%;
+  background: var(--creme);
+}
+
+.conteudo-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+
+/* ── SEÇÕES ── */
+.section {
+  margin-bottom: 3.5rem;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid var(--ouro);
+  color: var(--verde);
+}
+
+h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: var(--texto);
+}
+
+p { margin-bottom: 1rem; }
+p:last-child { margin-bottom: 0; }
+
+.section__num {
+  font-family: Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: var(--ouro);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  min-height: 420px;
+  overflow: hidden;
+}
+.hero__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.7));
+}
+.hero__content {
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem 1.5rem 3rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.hero__kicker {
+  font-family: Arial, sans-serif;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 0.75rem;
+}
+.hero__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem;
+  color: #fff;
+  line-height: 1.1;
+}
+.hero__subtitle {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.9);
+  max-width: 500px;
+}
+
+/* ── LISTA ── */
+.list-accent {
+  list-style: none;
+  padding-left: 1.25rem;
+  border-left: 3px solid var(--ouro);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* ── CONSELHEIRO ── */
+.conselheiro {
+  display: grid;
+  gap: 2rem;
+  align-items: start;
+}
+@media (min-width: 600px) {
+  .conselheiro { grid-template-columns: 220px 1fr; }
+}
+.conselheiro__figure {
+  margin: 0;
+  border: 1px solid var(--borda);
+}
+.conselheiro__caption {
+  background: var(--verde-pale);
+  padding: 0.5rem 0.75rem;
+  font-family: Arial, sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--texto-sec);
+}
+
+/* ── CITAÇÃO ── */
+.quote {
+  border-left: 4px solid var(--ouro);
+  background: var(--ouro-pale);
+  padding: 1rem 1.25rem;
+  font-style: italic;
+  color: var(--texto-sec);
+  margin: 1rem 0;
+}
+.quote--lg {
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+.quote__author {
+  display: block;
+  margin-top: 0.5rem;
+  font-style: normal;
+  font-family: Arial, sans-serif;
+  font-size: 0.8rem;
+  color: var(--texto-sec);
+  opacity: 0.75;
+}
+
+/* ── EXPEDIÇÕES ── */
+.expeditions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.expedition {
+  border: 1px solid var(--borda);
+  background: var(--card-bg);
+  padding: 1rem 1.25rem;
+  border-radius: 4px;
+}
+.expedition--final {
+  border-color: #b06040;
+  background: #fff8f5;
+}
+[data-tema="escuro"] .expedition--final {
+  background: #2a1005;
+}
+.expedition__head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+.expedition__num {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--verde);
+}
+.expedition__date {
+  font-family: Arial, sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--texto-sec);
+}
+
+/* ── TIMELINE ── */
+.timeline {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.timeline li {
+  display: flex;
+  gap: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--borda);
+}
+.timeline__date {
+  width: 7.5rem;
+  flex-shrink: 0;
+  font-weight: bold;
+  color: var(--verde);
+}
+
+/* ── QUIZ ── */
+.quiz__list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.quiz__item {
+  background: var(--card-bg);
+  border: 1px solid var(--borda);
+  border-radius: 4px;
+  padding: 1.25rem 1.5rem;
+}
+.quiz__q {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+  color: var(--texto);
+}
+.quiz__opts {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.quiz__opts li {
+  font-size: 0.95rem;
+  color: var(--texto-sec);
+}
+.quiz__opts strong {
+  color: var(--verde);
+  margin-right: 0.25rem;
+}
+.quiz__answer {
+  border-top: 1px dashed var(--borda);
+  padding-top: 0.75rem;
+}
+.quiz__answer summary {
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--verde);
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.quiz__answer summary::-webkit-details-marker { display: none; }
+.quiz__answer summary::before {
+  content: "▸";
+  font-size: 0.65rem;
+  transition: transform 0.2s;
+}
+.quiz__answer[open] summary::before { transform: rotate(90deg); }
+.quiz__answer p {
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--ouro-pale);
+  border-left: 3px solid var(--ouro);
+  font-size: 0.95rem;
+  color: var(--texto);
+}
+
+/* ── VÍDEO ── */
+.video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--borda);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ── FOOTER ── */
+.footer {
+  border-top: 1px solid var(--borda);
+  background: var(--footer-bg);
+  padding: 2rem 0;
+  text-align: center;
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.85rem;
+  color: var(--texto-sec);
+  font-style: italic;
+}
+.footer__inner p + p { margin-top: 0.35rem; }
+
+/* ── BARRA DE TEMA ── */
+.tema-toggle-bar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.4rem;
+  padding: 0.6rem 1rem 0;
+  position: relative;
+  z-index: 10;
+}
+
+.tema-btn {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 0.3rem 0.85rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.65);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tema-btn:hover {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border-color: rgba(255,255,255,0.4);
+}
+
+.tema-btn.ativo {
+  background: var(--ouro);
+  color: #1a1000;
+  border-color: var(--ouro);
+  font-weight: 700;
+}
+
+/* ── ALTO CONTRASTE: ajustes ── */
+[data-tema="contraste"] .tema-btn {
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+[data-tema="contraste"] .tema-btn.ativo {
+  background: #ffdd00;
+  color: #000000;
+  border-color: #ffdd00;
+}
+
+[data-tema="contraste"] .tab:hover {
+  color: #ffee44;
+  background: rgba(255,238,0,0.15);
+}
+
+/* ══════════════════════════════════════════
+   ABA: REVOLTA DO FORTE DE COPACABANA
+══════════════════════════════════════════ */
+
+.forte-hero {
+  background:
+    linear-gradient(135deg, rgba(31,26,20,0.88) 0%, rgba(58,46,31,0.78) 50%, rgba(94,19,19,0.88) 100%),
+    center/cover no-repeat;
+  background-color: #2b0a0a;
+  color: var(--paper, #fbf6ec);
+  padding: clamp(48px, 8vw, 100px) 20px;
+  text-align: center;
+  border-bottom: 5px double var(--ouro, #c49112);
+  position: relative;
+  overflow: hidden;
+}
+
+.forte-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(45deg, transparent 0 20px, rgba(255,255,255,0.018) 20px 21px);
+  pointer-events: none;
+}
+
+.forte-hero__eyebrow {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 6px;
+  font-size: clamp(0.7rem, 2vw, 0.85rem);
+  color: var(--ouro, #c49112);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.forte-hero__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.8rem, 5vw, 3.4rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+  border: none;
+  padding: 0;
+  display: block;
+  color: #fff;
+  position: relative;
+}
+
+.forte-hero__sub {
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 2px;
+  font-style: italic;
+  position: relative;
+}
+
+.forte-inner {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: clamp(30px, 6vw, 56px) clamp(12px, 4vw, 24px);
+}
+
+.forte-section {
+  background: var(--paper, #fbf6ec);
+  padding: clamp(24px, 5vw, 44px);
+  margin-bottom: clamp(24px, 4vw, 40px);
+  border: 1px solid var(--borda, #d8c8a8);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+  position: relative;
+}
+
+.forte-section::before {
+  content: "";
+  position: absolute;
+  top: 12px; left: 12px; right: 12px; bottom: 12px;
+  border: 1px solid var(--borda, #d8c8a8);
+  pointer-events: none;
+}
+
+.forte-section h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.3rem, 3.5vw, 1.9rem);
+  color: #2b0a0a;
+  margin-bottom: 8px;
+  font-weight: 400;
+  border-bottom: 2px solid var(--ouro, #c49112);
+  padding-bottom: 10px;
+  display: inline-block;
+  max-width: 100%;
+  font-style: normal;
+}
+
+.forte-resumo {
+  background: linear-gradient(135deg, #fbf6ec 0%, #f0e4cc 100%);
+  border-left: 6px solid #2b0a0a;
+}
+
+.forte-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--borda, #d8c8a8);
+}
+
+.forte-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Questões */
+.forte-questao {
+  background: #fff;
+  border: 1px solid var(--borda, #d8c8a8);
+  border-left: 5px solid var(--ouro, #c49112);
+  padding: clamp(16px, 3vw, 24px);
+  margin-bottom: 24px;
+}
+
+.forte-tag {
+  display: inline-block;
+  background: #2b0a0a;
+  color: var(--paper, #fbf6ec);
+  font-size: 0.73rem;
+  padding: 4px 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  font-family: Arial, sans-serif;
+}
+
+.forte-enunciado {
+  font-size: 0.97rem;
+  margin-bottom: 14px;
+  color: var(--texto, #1f1a14);
+  text-align: justify;
+  hyphens: auto;
+}
+
+.forte-opcoes {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.forte-opcoes li {
+  padding: 12px 14px;
+  border: 2px solid #d6d6d6;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #333;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.forte-opcoes li:hover {
+  background: #f5f7fa;
+  border-color: #bfc8d4;
+}
+
+.forte-opcoes li.correta {
+  background: #dff5e4 !important;
+  border-color: #7bc47f !important;
+  color: #256029 !important;
+  font-weight: 600;
+}
+
+.forte-opcoes li.errada {
+  background: #fde4e4 !important;
+  border-color: #e59a9a !important;
+  color: #9b2c2c !important;
+  text-decoration: line-through;
+}
+
+.forte-questao .resultado-texto {
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.forte-gabarito {
+  border-top: 1px dashed var(--borda, #d8c8a8);
+  padding-top: 12px;
+  margin-top: 4px;
+}
+
+.forte-gabarito summary {
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  font-size: 0.78rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #2b0a0a;
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.forte-gabarito summary::-webkit-details-marker { display: none; }
+.forte-gabarito summary::before {
+  content: "▸";
+  font-size: 0.65rem;
+  transition: transform 0.2s;
+}
+.forte-gabarito[open] summary::before { transform: rotate(90deg); }
+
+.forte-gabarito p {
+  margin-top: 10px;
+  padding: 12px 16px;
+  background: rgba(196,145,18,0.08);
+  border-left: 3px solid var(--ouro, #c49112);
+  font-size: 0.92rem;
+  color: var(--texto, #1f1a14);
+}
+
+/* Imagem incidência */
+.forte-imagem {
+  margin-top: 16px;
+  border: 1px solid var(--borda, #d8c8a8);
+}
+
+.forte-imagem img {
+  width: 100%;
+  border: none;
+}
+
+/* Footer da aba */
+.forte-footer {
+  background: #1f1a14;
+  color: #c8b89a;
+  text-align: center;
+  padding: 24px 20px;
+  font-size: 0.9rem;
+  border-top: 4px solid var(--ouro, #c49112);
+  font-family: 'Crimson Pro', Georgia, serif;
+}
+
+.forte-footer strong { color: var(--ouro, #c49112); }
+
+/* Tema escuro */
+[data-tema="escuro"] .forte-section {
+  background: var(--card-bg);
+  border-color: var(--borda);
+}
+[data-tema="escuro"] .forte-section::before { border-color: var(--borda); }
+[data-tema="escuro"] .forte-resumo { background: linear-gradient(135deg, #1e1e1e 0%, #1a1000 100%); }
+[data-tema="escuro"] .forte-section h3 { color: #e8b84b; }
+[data-tema="escuro"] .forte-questao { background: #1e1e1e; border-color: var(--borda); }
+[data-tema="escuro"] .forte-opcoes li { background: #2a2a2a; border-color: #3a3020; color: #e0d8c8; }
+[data-tema="escuro"] .forte-opcoes li:hover { background: #333; border-color: #5a4f3f; }
+[data-tema="escuro"] .forte-gabarito p { background: rgba(232,184,75,0.1); }
+[data-tema="escuro"] .forte-enunciado { color: var(--texto); }
+
+@media (max-width: 600px) {
+  .forte-section::before { display: none; }
+  .forte-enunciado { text-align: left; }
+}
+
+/* ── ABA VAZIA ── */
+.aba-vazia {
+  max-width: 760px;
+  margin: 5rem auto;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: var(--texto-sec);
+  font-style: italic;
+  font-size: 1.1rem;
+  opacity: 0.5;
+}
+
+/* ── RESPONSIVO ── */
+@media (max-width: 600px) {
+  .tab { padding: 0.6rem 0.8rem; font-size: 0.82rem; }
+  header { padding: 1.5rem 1rem 0; }
+  .conteudo-inner { padding: 1.5rem 1rem; }
+  .hero__title { font-size: 2rem; }
+}
