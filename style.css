@@ -581,6 +581,463 @@ p:last-child { margin-bottom: 0; }
 }
 
 /* ══════════════════════════════════════════
+   ABA: REVOLTA FEDERALISTA
+══════════════════════════════════════════ */
+
+.fed-jornal {
+  background: linear-gradient(180deg, #f8ebc8 0%, #f2dfb0 15%, #f4e4c1 30%, #f0dba8 50%, #f3e2bb 70%, #f5e6c4 100%);
+  border: 10px solid transparent;
+  border-image: repeating-linear-gradient(45deg, #3d2b1a 0px, #3d2b1a 2px, #8b6914 2px, #8b6914 4px, #3d2b1a 4px, #3d2b1a 6px, #5a3825 6px, #5a3825 8px) 10;
+  box-shadow: 0 0 0 2px #2c1810, 0 0 0 6px #5a3d24, 0 0 0 9px #1a0f08, 6px 10px 28px rgba(0,0,0,0.5);
+  position: relative;
+  padding: 28px 32px 22px;
+  max-width: 1000px;
+  margin: 2rem auto;
+}
+
+.fed-jornal::before {
+  content: '';
+  position: absolute;
+  top: 40px; right: 60px;
+  width: 140px; height: 90px;
+  background: radial-gradient(ellipse, rgba(139,90,40,0.22) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.fed-conteudo { position: relative; z-index: 1; }
+
+/* Cabeçalho */
+.fed-cabecalho {
+  text-align: center;
+  border-top: 4px double #3d2b1a;
+  border-bottom: 4px double #3d2b1a;
+  padding: 16px 10px;
+  margin-bottom: 22px;
+  position: relative;
+}
+.fed-cabecalho::before, .fed-cabecalho::after {
+  content: '⚜';
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  font-size: 26px;
+  color: #b8860b;
+}
+.fed-cabecalho::before { left: 15px; }
+.fed-cabecalho::after  { right: 15px; }
+
+.fed-subtitulo {
+  font-size: 0.88rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #5a3825;
+  font-style: italic;
+}
+.fed-titulo {
+  font-family: Georgia, serif;
+  font-size: clamp(1.5rem, 4vw, 2.6rem);
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #2c1810;
+  text-shadow: 2px 2px 0 rgba(184,134,11,0.28);
+  margin: 6px 0;
+  line-height: 1.1;
+  border: none;
+  padding: 0;
+  display: block;
+}
+.fed-data {
+  font-size: 0.83rem;
+  letter-spacing: 3px;
+  color: #5a3825;
+  font-style: italic;
+}
+
+/* Ornamento */
+.fed-ornamento {
+  text-align: center;
+  margin: 26px 0 18px;
+  font-size: 1.3rem;
+  letter-spacing: 8px;
+  color: #b8860b;
+  user-select: none;
+}
+.fed-ornamento span {
+  display: inline-block;
+  animation: fedBrilhar 3s ease-in-out infinite;
+}
+.fed-ornamento span:nth-child(2) { animation-delay: 0.3s; }
+.fed-ornamento span:nth-child(3) { animation-delay: 0.6s; }
+@keyframes fedBrilhar { 0%,100%{opacity:0.5} 50%{opacity:1} }
+
+/* Linha ornada */
+.fed-linha {
+  border: none;
+  height: 3px;
+  background: repeating-linear-gradient(90deg, #3d2b1a 0px,#3d2b1a 8px, transparent 8px,transparent 14px, #b8860b 14px,#b8860b 18px, transparent 18px,transparent 24px);
+  margin: 18px 0;
+  opacity: 0.7;
+}
+
+/* Título de seção */
+.fed-titulo-secao {
+  font-family: Georgia, serif;
+  font-size: 1.5rem;
+  text-align: center;
+  color: #2c1810;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: inline-block;
+  width: 100%;
+  font-style: normal;
+}
+.fed-titulo-secao::after {
+  content: '';
+  display: block;
+  width: 80px; height: 2px;
+  background: #b8860b;
+  margin: 6px auto 0;
+  border-radius: 1px;
+}
+
+/* Texto histórico */
+.fed-texto-historico {
+  column-count: 2;
+  column-gap: 34px;
+  column-rule: 1px dotted #5a3825;
+  text-align: justify;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+.fed-texto-historico p {
+  margin-bottom: 14px;
+  text-indent: 2em;
+  hyphens: auto;
+  color: #4a3f30;
+}
+.fed-texto-historico p:first-child::first-letter {
+  float: left;
+  font-size: 4.2rem;
+  line-height: 0.75;
+  padding-right: 10px; padding-top: 4px;
+  color: #8b3a3a;
+  font-weight: bold;
+  font-family: Georgia, serif;
+  text-shadow: 2px 2px 0 rgba(184,134,11,0.22);
+}
+.fed-destaque {
+  background: #fef8e7;
+  border: 1px solid #d4a84b;
+  padding: 12px 18px;
+  margin: 14px 0;
+  font-style: italic;
+  text-align: center;
+  font-size: 0.88rem;
+  letter-spacing: 1px;
+  break-inside: avoid;
+  color: #2c1810;
+}
+
+/* Vídeo */
+.fed-moldura-video {
+  background: #1a0f08;
+  padding: 14px;
+  border: 6px double #5a3d24;
+  box-shadow: inset 0 0 28px rgba(0,0,0,0.7), 5px 5px 18px rgba(0,0,0,0.5);
+  margin: 18px auto;
+  max-width: 700px;
+  position: relative;
+}
+.fed-moldura-video::before {
+  content: '';
+  position: absolute;
+  top: -8px; left: 50%; transform: translateX(-50%);
+  width: 60px; height: 14px;
+  background: #b8860b;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  z-index: 2;
+}
+.fed-placa {
+  text-align: center;
+  color: #d4a84b;
+  font-size: 0.73rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-style: italic;
+}
+.fed-video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  background: #000;
+  border: 3px solid #3d2b1a;
+}
+.fed-placeholder {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  background: #0a0a0a;
+  color: #c0a060;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.fed-placeholder:hover { background: #1a1008; color: #e0c878; }
+.fed-icone-play { font-size: 3.2rem; opacity: 0.7; transition: all 0.3s; }
+.fed-placeholder:hover .fed-icone-play { opacity: 1; transform: scale(1.1); }
+.fed-placeholder small { font-size: 0.68rem; opacity: 0.6; }
+.fed-legenda {
+  text-align: center;
+  color: #c0a060;
+  font-size: 0.73rem;
+  margin-top: 8px;
+  letter-spacing: 1px;
+  font-style: italic;
+}
+
+/* Questões */
+.fed-questao-card {
+  background: linear-gradient(180deg, #fdf3d8 0%, #f8eac2 100%);
+  border: 2px solid #c4a265;
+  margin-bottom: 18px;
+  padding: 20px 22px;
+  position: relative;
+  box-shadow: 3px 3px 10px rgba(44,24,16,0.22);
+  transition: all 0.3s ease;
+}
+.fed-questao-card:hover { box-shadow: 5px 5px 18px rgba(44,24,16,0.38); transform: translateY(-2px); }
+.fed-num-questao {
+  position: absolute;
+  top: -15px; left: 20px;
+  background: #8b3a3a;
+  color: #fdf3d8;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: bold; font-size: 0.95rem;
+  border: 2px solid #5a2020;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.28);
+  z-index: 2;
+}
+.fed-enunciado {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 0.93rem;
+  padding-left: 10px;
+  color: #2c1810;
+}
+.fed-alternativas {
+  list-style: none;
+  padding-left: 10px;
+}
+.fed-alternativas li {
+  padding: 7px 12px;
+  margin: 4px 0;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  transition: all 0.2s;
+  font-size: 0.88rem;
+  color: #4a3f30;
+}
+.fed-alternativas li:hover { background: rgba(184,134,11,0.1); border-color: #d4a84b; padding-left: 18px; }
+.fed-alternativas li.fed-selecionada { background: rgba(139,58,58,0.18); border-color: #8b3a3a; font-weight: bold; }
+.fed-alternativas li.fed-correta { background: rgba(46,139,87,0.18) !important; border-color: #2e8b57 !important; font-weight: bold; }
+.fed-alternativas li.fed-errada { background: rgba(200,60,60,0.14) !important; border-color: #c83c3c !important; text-decoration: line-through; }
+
+.fed-btn-revelar {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 8px 20px;
+  background: #3d2b1a;
+  color: #fdf3d8;
+  border: 1px solid #d4a84b;
+  cursor: pointer;
+  font-family: Georgia, serif;
+  letter-spacing: 1px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+.fed-btn-revelar:hover { background: #5a3825; }
+
+.fed-comentario {
+  display: none;
+  margin-top: 12px;
+  padding: 12px 16px;
+  background: #fef9ec;
+  border-left: 4px solid #b8860b;
+  font-size: 0.83rem;
+  line-height: 1.6;
+  color: #5a3825;
+  font-style: italic;
+  animation: fedFadeIn 0.4s ease;
+}
+.fed-comentario.fed-visivel { display: block; }
+.fed-comentario strong { color: #2c1810; font-style: normal; }
+@keyframes fedFadeIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+
+/* Incidência */
+.fed-moldura-incidencia {
+  background: #1a0f08;
+  padding: 16px;
+  border: 6px double #5a3d24;
+  box-shadow: inset 0 0 28px rgba(0,0,0,0.7), 5px 5px 18px rgba(0,0,0,0.5);
+  margin: 18px auto;
+  max-width: 750px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+.fed-moldura-incidencia:hover { transform: translateY(-3px); }
+.fed-moldura-incidencia::before {
+  content: '';
+  position: absolute;
+  top: -8px; left: 50%; transform: translateX(-50%);
+  width: 70px; height: 14px;
+  background: #b8860b;
+  border-radius: 0 0 4px 4px;
+  z-index: 2;
+}
+.fed-placa-incidencia {
+  text-align: center;
+  color: #d4a84b;
+  font-size: 0.78rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+.fed-imagem-wrapper {
+  position: relative;
+  width: 100%;
+  background: #0a0a0a;
+  border: 3px solid #3d2b1a;
+  overflow: hidden;
+  min-height: 200px;
+  display: flex; align-items: center; justify-content: center;
+}
+.fed-imagem-incidencia {
+  width: 100%; height: auto;
+  display: block;
+  object-fit: contain;
+  max-height: 450px;
+  transition: all 0.4s ease;
+  cursor: pointer;
+  border: none !important;
+}
+.fed-imagem-incidencia:hover { transform: scale(1.02); opacity: 0.9; }
+
+/* Timeline */
+.fed-timeline-container {
+  position: relative;
+  padding: 80px 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  cursor: grab;
+  scroll-behavior: smooth;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.fed-timeline-container:active { cursor: grabbing; }
+.fed-timeline-container::-webkit-scrollbar { height: 6px; }
+.fed-timeline-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 3px; }
+.fed-timeline-container::-webkit-scrollbar-thumb { background: #d4a84b; border-radius: 3px; }
+
+.fed-timeline-linha {
+  display: inline-flex;
+  gap: 0;
+  align-items: flex-start;
+  position: relative;
+  padding: 30px 10px 20px;
+  min-width: 100%;
+}
+.fed-timeline-linha::before {
+  content: '';
+  position: absolute;
+  top: 58px; left: 0; right: 0; height: 3px;
+  background: repeating-linear-gradient(90deg, #3d2b1a 0px,#3d2b1a 6px, transparent 6px,transparent 10px);
+  z-index: 0;
+}
+
+.fed-evento {
+  display: inline-block;
+  min-width: 150px; max-width: 180px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  transition: all 0.3s;
+  flex-shrink: 0;
+  padding: 0 8px;
+}
+.fed-bolinha {
+  width: 28px; height: 28px;
+  background: #b8860b;
+  border: 3px solid #3d2b1a;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  position: relative; z-index: 2;
+  transition: all 0.3s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+.fed-evento:hover .fed-bolinha { transform: scale(1.3); background: #e0b040; box-shadow: 0 4px 14px rgba(0,0,0,0.5); }
+.fed-ano-ev { font-weight: bold; font-size: 1rem; color: #2c1810; letter-spacing: 1px; }
+.fed-desc-ev { font-size: 0.7rem; color: #5a3825; white-space: normal; margin-top: 4px; font-style: italic; opacity: 0.8; max-height: 40px; overflow: hidden; }
+.fed-evento:hover .fed-desc-ev { opacity: 1; }
+
+.fed-detalhe-evento {
+  display: none;
+  position: absolute;
+  bottom: 100%; left: 50%; transform: translateX(-50%);
+  background: #2c1810; color: #fdf3d8;
+  padding: 12px 15px;
+  border-radius: 6px;
+  font-size: 0.76rem;
+  white-space: normal;
+  width: 200px; text-align: center;
+  z-index: 10;
+  box-shadow: 4px 4px 16px rgba(0,0,0,0.6);
+  border: 1px solid #b8860b;
+  line-height: 1.4;
+  pointer-events: none;
+}
+.fed-detalhe-evento::after {
+  content: '';
+  position: absolute;
+  top: 100%; left: 50%; transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-top-color: #2c1810;
+}
+.fed-evento:hover .fed-detalhe-evento,
+.fed-evento.ativo .fed-detalhe-evento { display: block; animation: fedFadeIn 0.3s ease; }
+
+/* Responsivo Federalista */
+@media (max-width: 768px) {
+  .fed-texto-historico { column-count: 1; column-gap: 0; column-rule: none; }
+  .fed-titulo { font-size: 1.5rem; letter-spacing: 1px; }
+  .fed-jornal { padding: 14px 10px; border-width: 6px; }
+  .fed-evento { min-width: 110px; max-width: 130px; }
+}
+@media (max-width: 480px) {
+  .fed-jornal { padding: 10px 8px; }
+  .fed-titulo { font-size: 1.2rem; }
+  .fed-titulo-secao { font-size: 1.1rem; }
+  .fed-evento { min-width: 85px; max-width: 100px; }
+  .fed-ano-ev { font-size: 0.8rem; }
+}
+
+/* ══════════════════════════════════════════
    ABA: REVOLTA DO FORTE DE COPACABANA
 ══════════════════════════════════════════ */
 
