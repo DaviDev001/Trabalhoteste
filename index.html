@@ -4,14 +4,324 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Revoluções Brasileiras — Trabalho Escolar</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet" />
   <script>
     (function() {
       const t = localStorage.getItem('tema') || 'claro';
       document.documentElement.setAttribute('data-tema', t);
     })();
   </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img { display: block; max-width: 100%; }
+
+    :root, [data-tema="claro"] {
+      --verde: #1a4a2e; --verde-claro: #2d7a4a; --verde-pale: #e8f5ee;
+      --ouro: #c9a227; --ouro-claro: #f0d060; --ouro-pale: #fdf8e8;
+      --creme: #faf6f0; --texto: #1e1a14; --texto-sec: #5a4f3f;
+      --borda: #d4c5a9; --header-bg: #1a4a2e;
+      --nav-tab-color: rgba(255,255,255,0.7);
+      --nav-tab-ativo-bg: rgba(201,162,39,0.1);
+      --divider-bg: #fdf8e8; --footer-bg: #e8f5ee;
+      --card-bg: #ffffff; --code-bg: #e8f5ee; --code-color: #1a4a2e;
+    }
+    [data-tema="escuro"] {
+      --verde: #4ecb7a; --verde-claro: #6ee89a; --verde-pale: #0d2e1a;
+      --ouro: #e8b84b; --ouro-claro: #f5d070; --ouro-pale: #1e1800;
+      --creme: #121212; --texto: #f0ece4; --texto-sec: #b0a890;
+      --borda: #3a3020; --header-bg: #0a1f10;
+      --nav-tab-color: rgba(255,255,255,0.55);
+      --nav-tab-ativo-bg: rgba(232,184,75,0.15);
+      --divider-bg: #1a1400; --footer-bg: #0d1a0f;
+      --card-bg: #1e1e1e; --code-bg: #0d2e1a; --code-color: #4ecb7a;
+    }
+    [data-tema="contraste"] {
+      --verde: #000000; --verde-claro: #000000; --verde-pale: #ffffff;
+      --ouro: #ffdd00; --ouro-claro: #ffee44; --ouro-pale: #ffffcc;
+      --creme: #ffffff; --texto: #000000; --texto-sec: #000000;
+      --borda: #000000; --header-bg: #000000;
+      --nav-tab-color: #ffffff;
+      --nav-tab-ativo-bg: rgba(255,238,0,0.3);
+      --divider-bg: #ffffcc; --footer-bg: #f0f0f0;
+      --card-bg: #ffffff; --code-bg: #ffffcc; --code-color: #000000;
+    }
+
+    body { font-family: 'Crimson Pro', Georgia, serif; font-size: 1.1rem; line-height: 1.7; background-color: var(--creme); color: var(--texto); min-height: 100vh; }
+
+    header { background: var(--header-bg); padding: 2rem 2rem 0; position: relative; overflow: hidden; }
+    header::before { content: ''; position: absolute; top:0;left:0;right:0;bottom:0; background: repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(201,162,39,0.05) 40px,rgba(201,162,39,0.05) 80px); pointer-events: none; }
+    .header-top { text-align: center; margin-bottom: 1.5rem; position: relative; }
+    .header-eyebrow { font-family:'Crimson Pro',serif; font-size:0.85rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--ouro-claro); margin-bottom:0.5rem; opacity:0.85; }
+    .header-title { font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3.4rem); font-weight:900; color:#fff; line-height:1.1; }
+    .header-title span { color:var(--ouro-claro); }
+    .header-subtitle { font-family:'Crimson Pro',serif; font-size:1rem; color:rgba(255,255,255,0.65); margin-top:0.4rem; font-style:italic; }
+
+    nav { display:flex; justify-content:center; flex-wrap:wrap; gap:0; position:relative; margin-top:1rem; }
+    .tab { font-family:'Crimson Pro',serif; font-size:0.95rem; font-weight:600; color:var(--nav-tab-color); padding:0.75rem 1.4rem; cursor:pointer; border:none; background:transparent; border-bottom:3px solid transparent; transition:all 0.25s ease; letter-spacing:0.01em; white-space:nowrap; text-align:center; }
+    .tab:hover { color:var(--ouro-claro); background:rgba(255,255,255,0.05); }
+    .tab.ativo { color:var(--ouro-claro); border-bottom-color:var(--ouro); background:var(--nav-tab-ativo-bg); }
+    .tab .ano { display:block; font-size:0.7rem; font-weight:300; opacity:0.7; letter-spacing:0.05em; font-style:italic; }
+
+    .divider { display:flex; align-items:center; gap:1rem; padding:1.5rem 2rem; background:var(--divider-bg); border-bottom:1px solid var(--borda); }
+    .divider-line { flex:1; height:1px; background:linear-gradient(to right,transparent,var(--ouro),transparent); }
+    .divider-icon { color:var(--ouro); font-size:1.2rem; }
+    .breadcrumb { font-family:'Crimson Pro',serif; font-size:0.85rem; color:var(--texto-sec); font-style:italic; }
+    .breadcrumb strong { color:var(--verde); font-style:normal; }
+
+    #conteudo-externo { width:100%; background:var(--creme); }
+    .conteudo-inner { max-width:760px; margin:0 auto; padding:3rem 1.5rem 4rem; }
+    .section { margin-bottom:3.5rem; }
+    h2 { font-family:'Playfair Display',serif; font-size:1.8rem; margin-bottom:1rem; padding-bottom:0.4rem; border-bottom:2px solid var(--ouro); color:var(--verde); }
+    h3 { font-size:1.1rem; margin-bottom:0.5rem; color:var(--texto); }
+    p { margin-bottom:1rem; }
+    p:last-child { margin-bottom:0; }
+    .section__num { font-family:Arial,sans-serif; font-size:0.75rem; font-weight:bold; color:var(--ouro); text-transform:uppercase; letter-spacing:0.15em; display:block; margin-bottom:0.4rem; }
+
+    .hero { position:relative; width:100%; height:70vh; min-height:420px; overflow:hidden; }
+    .hero__img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+    .hero__overlay { position:absolute; inset:0; background:linear-gradient(to bottom,rgba(0,0,0,0.1),rgba(0,0,0,0.7)); }
+    .hero__content { position:relative; z-index:10; height:100%; display:flex; flex-direction:column; justify-content:flex-end; padding:2rem 1.5rem 3rem; max-width:800px; margin:0 auto; }
+    .hero__kicker { font-family:Arial,sans-serif; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.2em; color:rgba(255,255,255,0.8); margin-bottom:0.75rem; }
+    .hero__title { font-family:'Playfair Display',serif; font-size:2.8rem; color:#fff; line-height:1.1; }
+    .hero__subtitle { margin-top:1rem; font-size:1.1rem; color:rgba(255,255,255,0.9); max-width:500px; }
+
+    .list-accent { list-style:none; padding-left:1.25rem; border-left:3px solid var(--ouro); display:flex; flex-direction:column; gap:0.5rem; }
+    .conselheiro { display:grid; gap:2rem; align-items:start; }
+    @media(min-width:600px){ .conselheiro { grid-template-columns:220px 1fr; } }
+    .conselheiro__figure { margin:0; border:1px solid var(--borda); }
+    .conselheiro__caption { background:var(--verde-pale); padding:0.5rem 0.75rem; font-family:Arial,sans-serif; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--texto-sec); }
+    .quote { border-left:4px solid var(--ouro); background:var(--ouro-pale); padding:1rem 1.25rem; font-style:italic; color:var(--texto-sec); margin:1rem 0; }
+    .quote--lg { font-size:1.25rem; line-height:1.5; }
+    .quote__author { display:block; margin-top:0.5rem; font-style:normal; font-family:Arial,sans-serif; font-size:0.8rem; color:var(--texto-sec); opacity:0.75; }
+    .expeditions { display:flex; flex-direction:column; gap:1rem; }
+    .expedition { border:1px solid var(--borda); background:var(--card-bg); padding:1rem 1.25rem; border-radius:4px; }
+    .expedition--final { border-color:#b06040; background:#fff8f5; }
+    [data-tema="escuro"] .expedition--final { background:#2a1005; }
+    .expedition__head { display:flex; align-items:baseline; gap:0.75rem; margin-bottom:0.25rem; }
+    .expedition__num { font-size:1.5rem; font-weight:bold; color:var(--verde); }
+    .expedition__date { font-family:Arial,sans-serif; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--texto-sec); }
+    .timeline { list-style:none; display:flex; flex-direction:column; gap:0.75rem; }
+    .timeline li { display:flex; gap:1.25rem; padding-bottom:0.75rem; border-bottom:1px solid var(--borda); }
+    .timeline__date { width:7.5rem; flex-shrink:0; font-weight:bold; color:var(--verde); }
+    .quiz__list { list-style:none; padding:0; margin-top:1.5rem; display:flex; flex-direction:column; gap:1.25rem; }
+    .quiz__item { background:var(--card-bg); border:1px solid var(--borda); border-radius:4px; padding:1.25rem 1.5rem; }
+    .quiz__q { font-size:1rem; font-weight:bold; margin-bottom:0.75rem; line-height:1.5; color:var(--texto); }
+    .quiz__opts { list-style:none; padding:0; margin:0 0 0.75rem; display:flex; flex-direction:column; gap:0.35rem; }
+    .quiz__opts li { font-size:0.95rem; color:var(--texto-sec); }
+    .quiz__opts strong { color:var(--verde); margin-right:0.25rem; }
+    .quiz__answer { border-top:1px dashed var(--borda); padding-top:0.75rem; }
+    .quiz__answer summary { cursor:pointer; font-family:Arial,sans-serif; font-size:0.8rem; font-weight:bold; text-transform:uppercase; letter-spacing:0.1em; color:var(--verde); list-style:none; display:inline-flex; align-items:center; gap:0.4rem; }
+    .quiz__answer summary::-webkit-details-marker { display:none; }
+    .quiz__answer summary::before { content:"▸"; font-size:0.65rem; transition:transform 0.2s; }
+    .quiz__answer[open] summary::before { transform:rotate(90deg); }
+    .quiz__answer p { margin-top:0.75rem; padding:0.75rem 1rem; background:var(--ouro-pale); border-left:3px solid var(--ouro); font-size:0.95rem; color:var(--texto); }
+    .video { position:relative; width:100%; aspect-ratio:16/9; border:1px solid var(--borda); border-radius:4px; overflow:hidden; }
+    .video iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+    .footer { border-top:1px solid var(--borda); background:var(--footer-bg); padding:2rem 0; text-align:center; font-family:'Crimson Pro',serif; font-size:0.85rem; color:var(--texto-sec); font-style:italic; }
+    .footer__inner p + p { margin-top:0.35rem; }
+
+    .tema-toggle-bar { display:flex; justify-content:flex-end; gap:0.4rem; padding:0.6rem 1rem 0; position:relative; z-index:10; }
+    .tema-btn { font-family:'Crimson Pro',serif; font-size:0.78rem; font-weight:600; letter-spacing:0.03em; padding:0.3rem 0.85rem; border-radius:20px; border:1px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.65); cursor:pointer; transition:all 0.2s ease; }
+    .tema-btn:hover { background:rgba(255,255,255,0.15); color:#fff; border-color:rgba(255,255,255,0.4); }
+    .tema-btn.ativo { background:var(--ouro); color:#1a1000; border-color:var(--ouro); font-weight:700; }
+    [data-tema="contraste"] .tema-btn { border-color:#ffffff; color:#ffffff; }
+    [data-tema="contraste"] .tema-btn.ativo { background:#ffdd00; color:#000000; border-color:#ffdd00; }
+    [data-tema="contraste"] .tab:hover { color:#ffee44; background:rgba(255,238,0,0.15); }
+
+    /* ══ FORTE ══ */
+    .forte-hero { background:linear-gradient(135deg,rgba(31,26,20,0.88) 0%,rgba(58,46,31,0.78) 50%,rgba(94,19,19,0.88) 100%),center/cover no-repeat; background-color:#2b0a0a; color:#fbf6ec; padding:clamp(48px,8vw,100px) 20px; text-align:center; border-bottom:5px double #c49112; position:relative; overflow:hidden; }
+    .forte-hero::before { content:""; position:absolute; inset:0; background-image:repeating-linear-gradient(45deg,transparent 0 20px,rgba(255,255,255,0.018) 20px 21px); pointer-events:none; }
+    .forte-hero__eyebrow { font-family:'Courier New',monospace; letter-spacing:6px; font-size:clamp(0.7rem,2vw,0.85rem); color:#c49112; text-transform:uppercase; margin-bottom:16px; position:relative; }
+    .forte-hero__title { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,5vw,3.4rem); font-weight:400; font-style:italic; line-height:1.1; margin-bottom:16px; text-shadow:2px 2px 0 rgba(0,0,0,0.3); border:none; padding:0; display:block; color:#fff; position:relative; }
+    .forte-hero__sub { font-family:'Crimson Pro',Georgia,serif; font-size:clamp(0.9rem,2.5vw,1.1rem); color:rgba(255,255,255,0.75); letter-spacing:2px; font-style:italic; position:relative; }
+    .forte-inner { max-width:880px; margin:0 auto; padding:clamp(30px,6vw,56px) clamp(12px,4vw,24px); }
+    .forte-section { background:#fbf6ec; padding:clamp(24px,5vw,44px); margin-bottom:clamp(24px,4vw,40px); border:1px solid #d8c8a8; box-shadow:0 6px 20px rgba(0,0,0,0.06); position:relative; }
+    .forte-section::before { content:""; position:absolute; top:12px;left:12px;right:12px;bottom:12px; border:1px solid #d8c8a8; pointer-events:none; }
+    .forte-section h3 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.3rem,3.5vw,1.9rem); color:#2b0a0a; margin-bottom:8px; font-weight:400; border-bottom:2px solid #c49112; padding-bottom:10px; display:inline-block; max-width:100%; font-style:normal; }
+    .forte-resumo { background:linear-gradient(135deg,#fbf6ec 0%,#f0e4cc 100%); border-left:6px solid #2b0a0a; }
+    .forte-video { position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; border:1px solid #d8c8a8; }
+    .forte-video iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+    .forte-questao { background:#fff; border:1px solid #d8c8a8; border-left:5px solid #c49112; padding:clamp(16px,3vw,24px); margin-bottom:24px; }
+    .forte-tag { display:inline-block; background:#2b0a0a; color:#fbf6ec; font-size:0.73rem; padding:4px 10px; letter-spacing:1px; text-transform:uppercase; margin-bottom:12px; font-family:Arial,sans-serif; }
+    .forte-enunciado { font-size:0.97rem; margin-bottom:14px; color:#1f1a14; text-align:justify; hyphens:auto; }
+    .forte-opcoes { list-style:none; padding:0; margin:0 0 12px; display:flex; flex-direction:column; gap:6px; }
+    .forte-opcoes li { padding:12px 14px; border:2px solid #d6d6d6; border-radius:8px; background:#ffffff; color:#333; font-size:0.95rem; cursor:pointer; transition:background 0.2s,border-color 0.2s; }
+    .forte-opcoes li:hover { background:#f5f7fa; border-color:#bfc8d4; }
+    .forte-opcoes li.correta { background:#dff5e4!important; border-color:#7bc47f!important; color:#256029!important; font-weight:600; }
+    .forte-opcoes li.errada { background:#fde4e4!important; border-color:#e59a9a!important; color:#9b2c2c!important; text-decoration:line-through; }
+    .forte-questao .resultado-texto { margin-top:10px; font-size:1rem; font-weight:600; }
+    .forte-gabarito { border-top:1px dashed #d8c8a8; padding-top:12px; margin-top:4px; }
+    .forte-gabarito summary { cursor:pointer; font-family:Arial,sans-serif; font-size:0.78rem; font-weight:bold; text-transform:uppercase; letter-spacing:0.1em; color:#2b0a0a; list-style:none; display:inline-flex; align-items:center; gap:0.4rem; }
+    .forte-gabarito summary::-webkit-details-marker { display:none; }
+    .forte-gabarito summary::before { content:"▸"; font-size:0.65rem; transition:transform 0.2s; }
+    .forte-gabarito[open] summary::before { transform:rotate(90deg); }
+    .forte-gabarito p { margin-top:10px; padding:12px 16px; background:rgba(196,145,18,0.08); border-left:3px solid #c49112; font-size:0.92rem; }
+    .forte-imagem { margin-top:16px; border:1px solid #d8c8a8; }
+    .forte-imagem img { width:100%; border:none; }
+    .forte-footer { background:#1f1a14; color:#c8b89a; text-align:center; padding:24px 20px; font-size:0.9rem; border-top:4px solid #c49112; font-family:'Crimson Pro',Georgia,serif; }
+    .forte-footer strong { color:#c49112; }
+    [data-tema="escuro"] .forte-section { background:var(--card-bg); border-color:var(--borda); }
+    [data-tema="escuro"] .forte-resumo { background:linear-gradient(135deg,#1e1e1e 0%,#1a1000 100%); }
+    [data-tema="escuro"] .forte-section h3 { color:#e8b84b; }
+    [data-tema="escuro"] .forte-questao { background:#1e1e1e; }
+    [data-tema="escuro"] .forte-opcoes li { background:#2a2a2a; border-color:#3a3020; color:#e0d8c8; }
+    @media(max-width:600px){ .forte-section::before { display:none; } }
+
+    /* ══ FEDERALISTA ══ */
+    .fed-jornal { background:linear-gradient(180deg,#f8ebc8 0%,#f2dfb0 15%,#f4e4c1 30%,#f0dba8 50%,#f3e2bb 70%,#f5e6c4 100%); border:10px solid transparent; border-image:repeating-linear-gradient(45deg,#3d2b1a 0px,#3d2b1a 2px,#8b6914 2px,#8b6914 4px,#3d2b1a 4px,#3d2b1a 6px,#5a3825 6px,#5a3825 8px) 10; box-shadow:0 0 0 2px #2c1810,0 0 0 6px #5a3d24,0 0 0 9px #1a0f08,6px 10px 28px rgba(0,0,0,0.5); position:relative; padding:28px 32px 22px; max-width:1000px; margin:2rem auto; }
+    .fed-jornal::before { content:''; position:absolute; top:40px;right:60px; width:140px;height:90px; background:radial-gradient(ellipse,rgba(139,90,40,0.22) 0%,transparent 70%); border-radius:50%; pointer-events:none; }
+    .fed-conteudo { position:relative; z-index:1; }
+    .fed-cabecalho { text-align:center; border-top:4px double #3d2b1a; border-bottom:4px double #3d2b1a; padding:16px 10px; margin-bottom:22px; position:relative; }
+    .fed-cabecalho::before,.fed-cabecalho::after { content:'⚜'; position:absolute; top:50%;transform:translateY(-50%); font-size:26px; color:#b8860b; }
+    .fed-cabecalho::before { left:15px; } .fed-cabecalho::after { right:15px; }
+    .fed-subtitulo { font-size:0.88rem; letter-spacing:4px; text-transform:uppercase; color:#5a3825; font-style:italic; }
+    .fed-titulo { font-family:Georgia,serif; font-size:clamp(1.5rem,4vw,2.6rem); font-weight:bold; letter-spacing:3px; text-transform:uppercase; color:#2c1810; text-shadow:2px 2px 0 rgba(184,134,11,0.28); margin:6px 0; line-height:1.1; border:none; padding:0; display:block; }
+    .fed-data { font-size:0.83rem; letter-spacing:3px; color:#5a3825; font-style:italic; }
+    .fed-ornamento { text-align:center; margin:26px 0 18px; font-size:1.3rem; letter-spacing:8px; color:#b8860b; user-select:none; }
+    .fed-ornamento span { display:inline-block; animation:fedBrilhar 3s ease-in-out infinite; }
+    .fed-ornamento span:nth-child(2){animation-delay:0.3s} .fed-ornamento span:nth-child(3){animation-delay:0.6s}
+    @keyframes fedBrilhar{0%,100%{opacity:0.5}50%{opacity:1}}
+    .fed-linha { border:none; height:3px; background:repeating-linear-gradient(90deg,#3d2b1a 0px,#3d2b1a 8px,transparent 8px,transparent 14px,#b8860b 14px,#b8860b 18px,transparent 18px,transparent 24px); margin:18px 0; opacity:0.7; }
+    .fed-titulo-secao { font-family:Georgia,serif; font-size:1.5rem; text-align:center; color:#2c1810; letter-spacing:2px; text-transform:uppercase; margin-bottom:16px; display:inline-block; width:100%; font-style:normal; }
+    .fed-titulo-secao::after { content:''; display:block; width:80px;height:2px; background:#b8860b; margin:6px auto 0; border-radius:1px; }
+    .fed-texto-historico { column-count:2; column-gap:34px; column-rule:1px dotted #5a3825; text-align:justify; font-size:0.95rem; line-height:1.8; margin-bottom:10px; }
+    .fed-texto-historico p { margin-bottom:14px; text-indent:2em; hyphens:auto; color:#4a3f30; }
+    .fed-texto-historico p:first-child::first-letter { float:left; font-size:4.2rem; line-height:0.75; padding-right:10px;padding-top:4px; color:#8b3a3a; font-weight:bold; font-family:Georgia,serif; text-shadow:2px 2px 0 rgba(184,134,11,0.22); }
+    .fed-destaque { background:#fef8e7; border:1px solid #d4a84b; padding:12px 18px; margin:14px 0; font-style:italic; text-align:center; font-size:0.88rem; letter-spacing:1px; break-inside:avoid; color:#2c1810; }
+    .fed-moldura-video { background:#1a0f08; padding:14px; border:6px double #5a3d24; box-shadow:inset 0 0 28px rgba(0,0,0,0.7),5px 5px 18px rgba(0,0,0,0.5); margin:18px auto; max-width:700px; position:relative; }
+    .fed-moldura-video::before { content:''; position:absolute; top:-8px;left:50%;transform:translateX(-50%); width:60px;height:14px; background:#b8860b; border-radius:0 0 4px 4px; box-shadow:0 2px 8px rgba(0,0,0,0.4); z-index:2; }
+    .fed-placa { text-align:center; color:#d4a84b; font-size:0.73rem; letter-spacing:3px; text-transform:uppercase; margin-bottom:8px; font-style:italic; }
+    .fed-video-wrapper { position:relative; padding-bottom:56.25%; height:0; overflow:hidden; background:#000; border:3px solid #3d2b1a; }
+    .fed-placeholder { position:absolute; top:0;left:0;width:100%;height:100%; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px; background:#0a0a0a; color:#c0a060; font-size:1rem; letter-spacing:2px; cursor:pointer; transition:all 0.3s; }
+    .fed-placeholder:hover { background:#1a1008; color:#e0c878; }
+    .fed-icone-play { font-size:3.2rem; opacity:0.7; transition:all 0.3s; }
+    .fed-placeholder:hover .fed-icone-play { opacity:1; transform:scale(1.1); }
+    .fed-placeholder small { font-size:0.68rem; opacity:0.6; }
+    .fed-legenda { text-align:center; color:#c0a060; font-size:0.73rem; margin-top:8px; letter-spacing:1px; font-style:italic; }
+    .fed-questao-card { background:linear-gradient(180deg,#fdf3d8 0%,#f8eac2 100%); border:2px solid #c4a265; margin-bottom:18px; padding:20px 22px; position:relative; box-shadow:3px 3px 10px rgba(44,24,16,0.22); transition:all 0.3s ease; }
+    .fed-questao-card:hover { box-shadow:5px 5px 18px rgba(44,24,16,0.38); transform:translateY(-2px); }
+    .fed-num-questao { position:absolute; top:-15px;left:20px; background:#8b3a3a; color:#fdf3d8; width:30px;height:30px; border-radius:50%; display:flex;align-items:center;justify-content:center; font-weight:bold;font-size:0.95rem; border:2px solid #5a2020; box-shadow:2px 2px 6px rgba(0,0,0,0.28); z-index:2; }
+    .fed-enunciado { font-weight:bold; margin-bottom:10px; font-size:0.93rem; padding-left:10px; color:#2c1810; }
+    .fed-alternativas { list-style:none; padding-left:10px; }
+    .fed-alternativas li { padding:7px 12px; margin:4px 0; cursor:pointer; border:1px solid transparent; border-radius:3px; transition:all 0.2s; font-size:0.88rem; color:#4a3f30; }
+    .fed-alternativas li:hover { background:rgba(184,134,11,0.1); border-color:#d4a84b; padding-left:18px; }
+    .fed-alternativas li.fed-selecionada { background:rgba(139,58,58,0.18); border-color:#8b3a3a; font-weight:bold; }
+    .fed-alternativas li.fed-correta { background:rgba(46,139,87,0.18)!important; border-color:#2e8b57!important; font-weight:bold; }
+    .fed-alternativas li.fed-errada { background:rgba(200,60,60,0.14)!important; border-color:#c83c3c!important; text-decoration:line-through; }
+    .fed-btn-revelar { display:inline-block; margin-top:8px; padding:8px 20px; background:#3d2b1a; color:#fdf3d8; border:1px solid #d4a84b; cursor:pointer; font-family:Georgia,serif; letter-spacing:1px; font-size:0.78rem; text-transform:uppercase; transition:all 0.3s; }
+    .fed-btn-revelar:hover { background:#5a3825; }
+    .fed-comentario { display:none; margin-top:12px; padding:12px 16px; background:#fef9ec; border-left:4px solid #b8860b; font-size:0.83rem; line-height:1.6; color:#5a3825; font-style:italic; animation:fedFadeIn 0.4s ease; }
+    .fed-comentario.fed-visivel { display:block; }
+    .fed-comentario strong { color:#2c1810; font-style:normal; }
+    @keyframes fedFadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+    .fed-moldura-incidencia { background:#1a0f08; padding:16px; border:6px double #5a3d24; box-shadow:inset 0 0 28px rgba(0,0,0,0.7),5px 5px 18px rgba(0,0,0,0.5); margin:18px auto; max-width:750px; position:relative; transition:all 0.3s ease; }
+    .fed-moldura-incidencia:hover { transform:translateY(-3px); }
+    .fed-moldura-incidencia::before { content:''; position:absolute; top:-8px;left:50%;transform:translateX(-50%); width:70px;height:14px; background:#b8860b; border-radius:0 0 4px 4px; z-index:2; }
+    .fed-placa-incidencia { text-align:center; color:#d4a84b; font-size:0.78rem; letter-spacing:3px; text-transform:uppercase; margin-bottom:12px; font-style:italic; }
+    .fed-imagem-wrapper { position:relative; width:100%; background:#0a0a0a; border:3px solid #3d2b1a; overflow:hidden; min-height:200px; display:flex;align-items:center;justify-content:center; }
+    .fed-imagem-incidencia { width:100%;height:auto; display:block; object-fit:contain; max-height:450px; transition:all 0.4s ease; cursor:pointer; border:none!important; }
+    .fed-imagem-incidencia:hover { transform:scale(1.02); opacity:0.9; }
+    .fed-timeline-container { position:relative; padding:80px 0; overflow-x:auto; white-space:nowrap; cursor:grab; scroll-behavior:smooth; user-select:none; -webkit-user-select:none; }
+    .fed-timeline-container:active { cursor:grabbing; }
+    .fed-timeline-container::-webkit-scrollbar { height:6px; }
+    .fed-timeline-container::-webkit-scrollbar-track { background:rgba(0,0,0,0.05); border-radius:3px; }
+    .fed-timeline-container::-webkit-scrollbar-thumb { background:#d4a84b; border-radius:3px; }
+    .fed-timeline-linha { display:inline-flex; gap:0; align-items:flex-start; position:relative; padding:30px 10px 20px; min-width:100%; }
+    .fed-timeline-linha::before { content:''; position:absolute; top:58px;left:0;right:0;height:3px; background:repeating-linear-gradient(90deg,#3d2b1a 0px,#3d2b1a 6px,transparent 6px,transparent 10px); z-index:0; }
+    .fed-evento { display:inline-block; min-width:150px;max-width:180px; text-align:center; position:relative; z-index:1; cursor:pointer; transition:all 0.3s; flex-shrink:0; padding:0 8px; }
+    .fed-bolinha { width:28px;height:28px; background:#b8860b; border:3px solid #3d2b1a; border-radius:50%; margin:0 auto 10px; position:relative;z-index:2; transition:all 0.3s; box-shadow:0 2px 6px rgba(0,0,0,0.3); }
+    .fed-evento:hover .fed-bolinha { transform:scale(1.3); background:#e0b040; box-shadow:0 4px 14px rgba(0,0,0,0.5); }
+    .fed-ano-ev { font-weight:bold; font-size:1rem; color:#2c1810; letter-spacing:1px; }
+    .fed-desc-ev { font-size:0.7rem; color:#5a3825; white-space:normal; margin-top:4px; font-style:italic; opacity:0.8; max-height:40px; overflow:hidden; }
+    .fed-evento:hover .fed-desc-ev { opacity:1; }
+    .fed-detalhe-evento { display:none; position:absolute; bottom:100%;left:50%;transform:translateX(-50%); background:#2c1810;color:#fdf3d8; padding:12px 15px; border-radius:6px; font-size:0.76rem; white-space:normal; width:200px;text-align:center; z-index:10; box-shadow:4px 4px 16px rgba(0,0,0,0.6); border:1px solid #b8860b; line-height:1.4; pointer-events:none; }
+    .fed-detalhe-evento::after { content:''; position:absolute; top:100%;left:50%;transform:translateX(-50%); border:8px solid transparent; border-top-color:#2c1810; }
+    .fed-evento:hover .fed-detalhe-evento,.fed-evento.ativo .fed-detalhe-evento { display:block; animation:fedFadeIn 0.3s ease; }
+    @media(max-width:768px){ .fed-texto-historico{column-count:1;column-gap:0;column-rule:none} .fed-titulo{font-size:1.5rem;letter-spacing:1px} .fed-jornal{padding:14px 10px;border-width:6px} .fed-evento{min-width:110px;max-width:130px} }
+    @media(max-width:480px){ .fed-jornal{padding:10px 8px} .fed-titulo{font-size:1.2rem} .fed-titulo-secao{font-size:1.1rem} .fed-evento{min-width:85px;max-width:100px} .fed-ano-ev{font-size:0.8rem} }
+
+    /* ══ CHIBATA — estilo exato do index(1).html ══ */
+    .chibata-wrapper {
+      font-family: 'Lora', Georgia, serif;
+      background-color: #ebe5d5;
+      color: #1f160d;
+      line-height: 1.6;
+    }
+    .chibata-wrapper * { box-sizing: border-box; }
+    .chibata-container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+    .chibata-wrapper header {
+      background: transparent;
+      padding: 0;
+      overflow: visible;
+    }
+    .chibata-wrapper header::before { display: none; }
+    .chibata-header-jornal {
+      text-align: center;
+      border-bottom: 2px solid #2c2416;
+      padding-bottom: 15px;
+      margin-bottom: 15px;
+    }
+    .chibata-h1 {
+      font-family: 'Bodoni Moda', 'Playfair Display', Georgia, serif;
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+      color: #1f160d;
+    }
+    .chibata-subtitulo-jornal { font-size: 12px; font-style: italic; color: #1f160d; }
+    .chibata-manchete { border-top: 4px double #2c2416; border-bottom: 4px double #2c2416; padding: 15px 0; margin: 20px 0; text-align: center; }
+    .chibata-manchete h2 { font-family: 'Bodoni Moda', 'Playfair Display', Georgia, serif; font-size: 36px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; color: #1f160d; border: none; padding: 0; display: block; }
+    .chibata-manchete p { font-size: 18px; font-style: italic; color: #1f160d; }
+    .chibata-imagem-principal { border: 2px solid #2c2416; padding: 10px; max-width: 500px; margin: 20px auto; }
+    .chibata-imagem-principal img { width: 100%; height: auto; filter: grayscale(100%) sepia(30%); display: block; }
+    .chibata-imagem-principal p { text-align: center; font-size: 14px; font-style: italic; margin-top: 10px; color: #1f160d; }
+    .chibata-conteudo-cols { display: flex; gap: 30px; margin-top: 30px; flex-wrap: wrap; }
+    .chibata-artigo { flex: 2; min-width: 300px; }
+    .chibata-lateral { flex: 1; min-width: 250px; }
+    .chibata-artigo > p { text-align: justify; margin-bottom: 15px; text-indent: 30px; color: #1f160d; font-size: 1rem; }
+    .chibata-artigo > p.chibata-deus-salve { text-align: center; font-weight: bold; font-size: 20px; text-indent: 0 !important; }
+    .chibata-artigo > p:first-of-type { text-indent: 0; }
+    .chibata-artigo > p:first-of-type::first-letter { float: left; font-size: 72px; font-weight: bold; line-height: 0.8; margin-right: 10px; margin-top: 5px; color: #1f160d; }
+    .chibata-imagem-artigo { border: 2px solid #2c2416; padding: 8px; margin: 20px 0; background-color: #ebe5d5; }
+    .chibata-imagem-artigo img { display: block; margin: 0 auto; height: auto; filter: grayscale(100%) sepia(30%); }
+    .chibata-imagem-artigo.pequena img { width: 150px; }
+    .chibata-imagem-artigo.media img { width: 100%; max-width: 350px; }
+    .chibata-imagem-artigo p { text-align: center; font-size: 13px; font-style: italic; margin-top: 8px; text-indent: 0; color: #1f160d; }
+    .chibata-caixa { border: 2px solid #2c2416; padding: 15px; margin-bottom: 20px; background-color: #ebe5d5; }
+    .chibata-caixa h3 { font-family: 'Bodoni Moda', 'Playfair Display', Georgia, serif; font-size: 16px; font-weight: bold; text-transform: uppercase; text-align: center; border-bottom: 1px solid #2c2416; padding-bottom: 8px; margin-bottom: 12px; color: #1f160d; }
+    .chibata-caixa img { display: block; width: 120px; height: auto; margin: 0 auto 10px; filter: grayscale(100%) sepia(30%); }
+    .chibata-caixa p { font-size: 14px; text-align: justify; color: #1f160d; }
+    .chibata-caixa ul { list-style: none; padding-left: 0; }
+    .chibata-caixa li { font-size: 14px; padding: 5px 0; border-bottom: 1px dashed #2c2416; color: #1f160d; }
+    .chibata-caixa li:last-child { border-bottom: none; }
+    .chibata-secao-questoes { margin-top: 40px; border-top: 4px double #2c2416; padding-top: 20px; }
+    .chibata-secao-questoes h2 { font-family: 'Bodoni Moda', 'Playfair Display', Georgia, serif; text-align: center; font-size: 24px; text-transform: uppercase; margin-bottom: 25px; color: #1f160d; border: none; padding: 0; }
+    .chibata-questao-card { border: 2px solid #2c2416; padding: 20px; margin-bottom: 25px; background-color: #ebe5d5; }
+    .chibata-questao-card h4 { font-family: 'Bodoni Moda', 'Playfair Display', Georgia, serif; font-size: 16px; font-weight: bold; margin-bottom: 15px; text-transform: uppercase; color: #1f160d; }
+    .chibata-texto-base { font-style: italic; margin-bottom: 15px; padding: 10px; border-left: 3px solid #2c2416; background-color: #ebe5d5; color: #1f160d; font-size: 0.95rem; }
+    .chibata-enunciado { margin-bottom: 15px; font-weight: 500; font-size: 0.95rem; color: #1f160d; }
+    .chibata-alternativa { display: block; width: 100%; text-align: left; padding: 10px 15px; margin-bottom: 8px; border: 1px solid #2c2416; background-color: #ebe5d5; cursor: pointer; font-family: 'Lora', Georgia, serif; font-size: 14px; transition: background-color 0.2s; color: #1f160d; }
+    .chibata-alternativa:hover:not([disabled]) { background-color: #e8e0d0; }
+    .chibata-alternativa.correta { background-color: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; }
+    .chibata-alternativa.errada { background-color: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; }
+    .chibata-explicacao { margin-top: 15px; padding: 15px; border: 1px solid; display: none; }
+    .chibata-explicacao.correta-bg { background-color: #d4edda; border-color: #28a745; }
+    .chibata-explicacao.errada-bg { background-color: #f8d7da; border-color: #dc3545; }
+    .chibata-explicacao h5 { font-weight: bold; margin-bottom: 10px; color: #1f160d; }
+    .chibata-explicacao p { color: #1f160d; font-size: 0.93rem; text-indent: 0; margin-bottom: 0; }
+    .chibata-footer-jornal { text-align: center; border-top: 2px solid #2c2416; padding-top: 20px; margin-top: 40px; font-size: 14px; color: #1f160d; }
+    @media(max-width:768px){
+      .chibata-h1 { font-size: 32px; }
+      .chibata-manchete h2 { font-size: 24px; }
+      .chibata-conteudo-cols { flex-direction: column; }
+      .chibata-artigo > p:first-of-type::first-letter { font-size: 48px; }
+    }
+
+    .aba-vazia { max-width:760px; margin:5rem auto; padding:3rem 1.5rem; text-align:center; color:var(--texto-sec); font-style:italic; font-size:1.1rem; opacity:0.5; }
+    @media(max-width:600px){ .tab{padding:0.6rem 0.8rem;font-size:0.82rem} header{padding:1.5rem 1rem 0} .conteudo-inner{padding:1.5rem 1rem} .hero__title{font-size:2rem} }
+  </style>
 </head>
 <body>
 
@@ -21,42 +331,19 @@
       <button class="tema-btn" onclick="definirTema('escuro')" title="Modo Escuro">Escuro</button>
       <button class="tema-btn" onclick="definirTema('contraste')" title="Alto Contraste">Contraste</button>
     </div>
-
     <div class="header-top">
       <p class="header-eyebrow">Trabalho Escolar · História do Brasil</p>
       <h1 class="header-title">Revoluções <span>Brasileiras</span></h1>
       <p class="header-subtitle">Uma jornada pelos momentos que moldaram o Brasil</p>
     </div>
-
     <nav>
-      <button class="tab ativo" onclick="selecionarAba(this, 'Revolta de Canudos')">
-        Revolta de Canudos
-        <span class="ano">1896–1897</span>
-      </button>
-      <button class="tab" onclick="selecionarAba(this, 'Revolta do Forte de Copacabana')">
-        Revolta do Forte de Copacabana
-        <span class="ano">1922</span>
-      </button>
-      <button class="tab" onclick="selecionarAba(this, 'Revolta Federalista')">
-        Revolta Federalista
-        <span class="ano">1893–1895</span>
-      </button>
-      <button class="tab" onclick="selecionarAba(this, 'Revolução Farroupilha')">
-        Revolução Farroupilha
-        <span class="ano">1835–1845</span>
-      </button>
-      <button class="tab" onclick="selecionarAba(this, 'Proclamação da República')">
-        Proclamação da República
-        <span class="ano">1889</span>
-      </button>
-      <button class="tab" onclick="selecionarAba(this, 'Revolução de 1930')">
-        Revolução de 1930
-        <span class="ano">1930</span>
-      </button>
-      <button class="tab" onclick="selecionarAba(this, 'Revolução Constitucionalista')">
-        Revolução Constitucionalista
-        <span class="ano">1932</span>
-      </button>
+      <button class="tab ativo" onclick="selecionarAba(this,'Revolta de Canudos')">Revolta de Canudos<span class="ano">1896–1897</span></button>
+      <button class="tab" onclick="selecionarAba(this,'Revolta do Forte de Copacabana')">Revolta do Forte de Copacabana<span class="ano">1922</span></button>
+      <button class="tab" onclick="selecionarAba(this,'Revolta Federalista')">Revolta Federalista<span class="ano">1893–1895</span></button>
+      <button class="tab" onclick="selecionarAba(this,'Revolta da Chibata')">Revolta da Chibata<span class="ano">1910</span></button>
+      <button class="tab" onclick="selecionarAba(this,'Proclamação da República')">Proclamação da República<span class="ano">1889</span></button>
+      <button class="tab" onclick="selecionarAba(this,'Revolução de 1930')">Revolução de 1930<span class="ano">1930</span></button>
+      <button class="tab" onclick="selecionarAba(this,'Revolução Constitucionalista')">Revolução Constitucionalista<span class="ano">1932</span></button>
     </nav>
   </header>
 
@@ -68,772 +355,296 @@
     <div class="divider-line"></div>
   </div>
 
-  <!-- CONTEÚDO PRINCIPAL — ocupa toda a largura abaixo da barra -->
   <div id="conteudo-externo">
 
     <!-- ABA: Revolta de Canudos -->
     <div class="aba-conteudo" data-aba="Revolta de Canudos">
       <section class="hero">
-      <img class="hero__img" src="canudos-hero.jpg" alt="Ilustração do arraial de Canudos" />
-      <div class="hero__overlay"></div>
-      <div class="hero__content">
-        <p class="hero__kicker">Trabalho de História · Brasil República</p>
-        <h1 class="hero__title">A Revolta de Canudos</h1>
-        <p class="hero__subtitle">Sertão da Bahia, 1896–1897. A história de um arraial que desafiou a República e foi destruído em uma das guerras mais sangrentas do Brasil.</p>
+        <img class="hero__img" src="canudos-hero.jpg" alt="Ilustração do arraial de Canudos" />
+        <div class="hero__overlay"></div>
+        <div class="hero__content">
+          <p class="hero__kicker">Trabalho de História · Brasil República</p>
+          <h1 class="hero__title">A Revolta de Canudos</h1>
+          <p class="hero__subtitle">Sertão da Bahia, 1896–1897. A história de um arraial que desafiou a República e foi destruído em uma das guerras mais sangrentas do Brasil.</p>
+        </div>
+      </section>
+      <div class="conteudo-inner">
+        <section class="section"><span class="section__num">01</span><h2>O que foi a Revolta de Canudos?</h2><p>A <strong>Guerra de Canudos</strong> foi um conflito armado ocorrido entre 1896 e 1897 no sertão da Bahia, no povoado de Canudos. De um lado, os sertanejos liderados pelo beato <strong>Antônio Conselheiro</strong>; do outro, o Exército da recém-proclamada República brasileira.</p><p>O arraial chegou a abrigar mais de <strong>25 mil pessoas</strong>, tornando-se a segunda maior cidade da Bahia na época. Foi destruído após quatro expedições militares, deixando milhares de mortos.</p></section>
+        <section class="section"><span class="section__num">02</span><h2>Contexto histórico</h2><p>No final do século XIX, o Nordeste brasileiro vivia uma realidade dura: seca, fome, miséria, concentração de terras e abandono pelo poder público.</p><ul class="list-accent"><li><strong>Seca e miséria</strong> no sertão nordestino</li><li><strong>Fim da escravidão (1888)</strong> sem políticas de inclusão</li><li><strong>Cobrança de impostos</strong> pela nova República</li><li><strong>Separação entre Igreja e Estado</strong>, vista como ofensa</li><li><strong>Coronelismo</strong> e violência no campo</li></ul></section>
+        <section class="section"><span class="section__num">03</span><h2>Antônio Conselheiro</h2><div class="conselheiro"><figure class="conselheiro__figure"><img src="conselheiro.jpg" alt="Retrato de Antônio Conselheiro" loading="lazy" /><figcaption class="conselheiro__caption">Antônio Vicente Mendes Maciel · 1830–1897</figcaption></figure><div><p>Nascido no Ceará, <strong>Antônio Vicente Mendes Maciel</strong> tornou-se peregrino pelo sertão pregando a fé católica, criticando a República e prometendo justiça aos pobres.</p><p>Em 1893, fundou o arraial de <strong>Belo Monte</strong>, conhecido como Canudos.</p><blockquote class="quote">"A República não pode prevalecer, porque está em desacordo com as leis de Deus."</blockquote></div></div></section>
+        <section class="section"><span class="section__num">04</span><h2>As quatro expedições</h2><div class="expeditions"><div class="expedition"><div class="expedition__head"><span class="expedition__num">1ª</span><span class="expedition__date">Novembro de 1896</span></div><p class="expedition__text">100 soldados sob o tenente Pires Ferreira. Derrotados em Uauá.</p></div><div class="expedition"><div class="expedition__head"><span class="expedition__num">2ª</span><span class="expedition__date">Janeiro de 1897</span></div><p class="expedition__text">560 homens liderados pelo major Febrônio de Brito. Vencidos no Cambaio.</p></div><div class="expedition"><div class="expedition__head"><span class="expedition__num">3ª</span><span class="expedition__date">Março de 1897</span></div><p class="expedition__text">1.300 soldados sob o coronel Moreira César. Morto em combate; tropa em fuga.</p></div><div class="expedition expedition--final"><div class="expedition__head"><span class="expedition__num">4ª</span><span class="expedition__date">Junho a Outubro de 1897</span></div><p class="expedition__text">Mais de 8.000 soldados, com artilharia pesada. Canudos foi totalmente destruída em 5 de outubro de 1897.</p></div></div></section>
+        <section class="section"><span class="section__num">05</span><h2>O fim do arraial</h2><p>Em <strong>5 de outubro de 1897</strong>, os últimos quatro defensores foram mortos. Canudos foi queimada e demolida.</p><p>Estima-se que entre <strong>15 mil e 25 mil sertanejos</strong> morreram.</p></section>
+        <section class="section"><span class="section__num">06</span><h2>Legado e Os Sertões</h2><p>O jornalista <strong>Euclides da Cunha</strong> acompanhou a quarta expedição. Suas observações resultaram no livro <em>Os Sertões</em> (1902).</p><blockquote class="quote quote--lg">"O sertanejo é, antes de tudo, um forte."<span class="quote__author">— Euclides da Cunha, Os Sertões</span></blockquote></section>
+        <section class="section"><span class="section__num">07</span><h2>Linha do tempo</h2><ol class="timeline"><li><span class="timeline__date">1893</span><span class="timeline__event">Antônio Conselheiro funda Canudos.</span></li><li><span class="timeline__date">1896</span><span class="timeline__event">Conflito inicia a guerra.</span></li><li><span class="timeline__date">Nov 1896</span><span class="timeline__event">1ª Expedição derrotada.</span></li><li><span class="timeline__date">Jan 1897</span><span class="timeline__event">2ª Expedição vencida.</span></li><li><span class="timeline__date">Mar 1897</span><span class="timeline__event">3ª Expedição: morre Moreira César.</span></li><li><span class="timeline__date">Jun–Out 1897</span><span class="timeline__event">4ª Expedição destrói Canudos.</span></li><li><span class="timeline__date">5 Out 1897</span><span class="timeline__event">Queda final do arraial.</span></li><li><span class="timeline__date">1902</span><span class="timeline__event">Publicação de Os Sertões.</span></li></ol></section>
+        <section class="section"><span class="section__num">08</span><h2>Questões sobre a revolta de Canudos</h2><ol class="quiz__list"><li class="quiz__item"><h3 class="quiz__q">01. As ruínas do povoado de Canudos foram reconhecidas como patrimônio cultural material pelo Iphan porque reúnem um conjunto de</h3><ul class="quiz__opts"><li><strong>a)</strong> Objetos arqueológicos e paisagísticos.</li><li><strong>b)</strong> Acervos museológicos e bibliográficos.</li><li><strong>c)</strong> Núcleos urbanos e etnográficos.</li><li><strong>d)</strong> Práticas e representações de uma sociedade.</li><li><strong>e)</strong> Expressões e técnicas de uma sociedade extinta.</li></ul><details class="quiz__answer"><summary>Ver resposta correta</summary><p><strong>Letra A.</strong> Objetos arqueológicos e paisagísticos.</p></details></li></ol></section>
+        <section class="section"><span class="section__num">09</span><h2>Vídeo sobre a guerra de Canudos</h2><div class="video"><iframe src="https://www.youtube.com/embed/cGf8mjff6ss" title="A Guerra de Canudos" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe></div></section>
       </div>
-    </section>
-
-    <div class="conteudo-inner">
-
-      <!-- 01 -->
-      <section class="section">
-        <span class="section__num">01</span>
-        <h2>O que foi a Revolta de Canudos?</h2>
-        <p>A <strong>Guerra de Canudos</strong> foi um conflito armado ocorrido entre 1896 e 1897 no sertão da Bahia, no povoado de Canudos. De um lado, os sertanejos liderados pelo beato <strong>Antônio Conselheiro</strong>; do outro, o Exército da recém-proclamada República brasileira.</p>
-        <p>O arraial chegou a abrigar mais de <strong>25 mil pessoas</strong>, tornando-se a segunda maior cidade da Bahia na época. Foi destruído após quatro expedições militares, deixando milhares de mortos.</p>
-      </section>
-
-      <!-- 02 -->
-      <section class="section">
-        <span class="section__num">02</span>
-        <h2>Contexto histórico</h2>
-        <p>No final do século XIX, o Nordeste brasileiro vivia uma realidade dura: seca, fome, miséria, concentração de terras e abandono pelo poder público. A recém-proclamada República (1889) não trouxe melhorias para o sertanejo pobre.</p>
-        <ul class="list-accent">
-          <li><strong>Seca e miséria</strong> no sertão nordestino</li>
-          <li><strong>Fim da escravidão (1888)</strong> sem políticas de inclusão</li>
-          <li><strong>Cobrança de impostos</strong> pela nova República</li>
-          <li><strong>Separação entre Igreja e Estado</strong>, vista como ofensa</li>
-          <li><strong>Coronelismo</strong> e violência no campo</li>
-        </ul>
-      </section>
-
-      <!-- 03 -->
-      <section class="section">
-        <span class="section__num">03</span>
-        <h2>Antônio Conselheiro</h2>
-        <div class="conselheiro">
-          <figure class="conselheiro__figure">
-            <img src="conselheiro.jpg" alt="Retrato de Antônio Conselheiro" loading="lazy" />
-            <figcaption class="conselheiro__caption">Antônio Vicente Mendes Maciel · 1830–1897</figcaption>
-          </figure>
-          <div>
-            <p>Nascido no Ceará, <strong>Antônio Vicente Mendes Maciel</strong> tornou-se peregrino pelo sertão pregando a fé católica, criticando a República e prometendo justiça aos pobres. Era visto como santo pelos sertanejos e como fanático perigoso pelas elites.</p>
-            <p>Em 1893, fundou o arraial de <strong>Belo Monte</strong>, conhecido como Canudos. Lá, organizou uma comunidade baseada na fé, no trabalho coletivo e na vida simples.</p>
-            <blockquote class="quote">"A República não pode prevalecer, porque está em desacordo com as leis de Deus."</blockquote>
-          </div>
-        </div>
-      </section>
-
-      <!-- 04 -->
-      <section class="section">
-        <span class="section__num">04</span>
-        <h2>As quatro expedições</h2>
-        <p>O governo enviou <strong>quatro expedições militares</strong> para destruir Canudos. As três primeiras foram derrotadas pelos sertanejos.</p>
-        <br />
-        <div class="expeditions">
-          <div class="expedition">
-            <div class="expedition__head">
-              <span class="expedition__num">1ª</span>
-              <span class="expedition__date">Novembro de 1896</span>
-            </div>
-            <p class="expedition__text">100 soldados sob o tenente Pires Ferreira. Derrotados em Uauá.</p>
-          </div>
-          <div class="expedition">
-            <div class="expedition__head">
-              <span class="expedition__num">2ª</span>
-              <span class="expedition__date">Janeiro de 1897</span>
-            </div>
-            <p class="expedition__text">560 homens liderados pelo major Febrônio de Brito. Vencidos no Cambaio.</p>
-          </div>
-          <div class="expedition">
-            <div class="expedition__head">
-              <span class="expedition__num">3ª</span>
-              <span class="expedition__date">Março de 1897</span>
-            </div>
-            <p class="expedition__text">1.300 soldados sob o coronel Moreira César, herói da República. Morto em combate; tropa em fuga.</p>
-          </div>
-          <div class="expedition expedition--final">
-            <div class="expedition__head">
-              <span class="expedition__num">4ª</span>
-              <span class="expedition__date">Junho a Outubro de 1897</span>
-            </div>
-            <p class="expedition__text">Mais de 8.000 soldados, com artilharia pesada. Após meses de cerco, Canudos foi totalmente destruída em 5 de outubro de 1897.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- 05 -->
-      <section class="section">
-        <span class="section__num">05</span>
-        <h2>O fim do arraial</h2>
-        <p>Em <strong>5 de outubro de 1897</strong>, os últimos quatro defensores — "um velho, dois homens feitos e uma criança" — foram mortos. Canudos foi queimada, suas casas demolidas e a cabeça de Antônio Conselheiro decepada e exibida publicamente.</p>
-        <p>Estima-se que entre <strong>15 mil e 25 mil sertanejos</strong> morreram. Mulheres e crianças sobreviventes foram levadas como prisioneiras; muitos desapareceram no caminho.</p>
-      </section>
-
-      <!-- 06 -->
-      <section class="section">
-        <span class="section__num">06</span>
-        <h2>Legado e Os Sertões</h2>
-        <p>O jornalista <strong>Euclides da Cunha</strong> acompanhou a quarta expedição como correspondente. Suas observações resultaram no livro <em>Os Sertões</em> (1902), obra-prima da literatura brasileira que denunciou a violência do Estado e revelou ao Brasil a realidade do sertanejo.</p>
-        <blockquote class="quote quote--lg">
-          "O sertanejo é, antes de tudo, um forte."
-          <span class="quote__author">— Euclides da Cunha, Os Sertões</span>
-        </blockquote>
-        <p>Canudos tornou-se símbolo da <strong>resistência popular</strong>, da desigualdade social brasileira e do conflito entre o Brasil litorâneo, urbano e moderno, e o Brasil sertanejo, esquecido e empobrecido.</p>
-      </section>
-
-      <!-- 07 -->
-      <section class="section">
-        <span class="section__num">07</span>
-        <h2>Linha do tempo</h2>
-        <ol class="timeline">
-          <li><span class="timeline__date">1893</span><span class="timeline__event">Antônio Conselheiro funda o arraial de Belo Monte (Canudos).</span></li>
-          <li><span class="timeline__date">1896</span><span class="timeline__event">Conflito com autoridades de Juazeiro inicia a guerra.</span></li>
-          <li><span class="timeline__date">Nov 1896</span><span class="timeline__event">1ª Expedição é derrotada em Uauá.</span></li>
-          <li><span class="timeline__date">Jan 1897</span><span class="timeline__event">2ª Expedição vencida no Cambaio.</span></li>
-          <li><span class="timeline__date">Mar 1897</span><span class="timeline__event">3ª Expedição: morre o coronel Moreira César.</span></li>
-          <li><span class="timeline__date">Jun–Out 1897</span><span class="timeline__event">4ª Expedição cerca e destrói Canudos.</span></li>
-          <li><span class="timeline__date">5 Out 1897</span><span class="timeline__event">Queda final do arraial.</span></li>
-          <li><span class="timeline__date">1902</span><span class="timeline__event">Publicação de Os Sertões, de Euclides da Cunha.</span></li>
-        </ol>
-      </section>
-
-      <!-- QUESTIONÁRIO -->
-      <section class="section">
-        <span class="section__num">08</span>
-        <h2>Questões sobre a revolta de Canudos</h2>
-
-        <ol class="quiz__list">
-          <li class="quiz__item">
-            <h3 class="quiz__q">01. As ruínas do povoado de Canudos, no sertão norte da Bahia, foram reconhecidas como patrimônio cultural material pelo Iphan porque reúnem um conjunto de</h3>
-            <ul class="quiz__opts">
-              <li><strong>a)</strong> Objetos arqueológicos e paisagísticos.</li>
-              <li><strong>b)</strong> Acervos museológicos e bibliográficos.</li>
-              <li><strong>c)</strong> Núcleos urbanos e etnográficos.</li>
-              <li><strong>d)</strong> Práticas e representações de uma sociedade.</li>
-              <li><strong>e)</strong> Expressões e técnicas de uma sociedade extinta.</li>
-            </ul>
-            <details class="quiz__answer"><summary>Ver resposta correta</summary>
-              <p><strong>Letra A.</strong> Objetos arqueológicos e paisagísticos.</p>
-            </details>
-          </li>
-
-          <li class="quiz__item">
-            <h3 class="quiz__q">02. Sobre o líder Antônio Conselheiro, qual característica melhor descreve seu papel no conflito?</h3>
-            <ul class="quiz__opts">
-              <li><strong>a)</strong> Atuava exclusivamente como líder militar, comandando ações bélicas contra o governo.</li>
-              <li><strong>b)</strong> Foi um líder religioso e social que criticava a República e atraía seguidores para um modo de vida comunitário e de resistência.</li>
-              <li><strong>c)</strong> Atuava como representante oficial do governo, tentando mediar conflitos.</li>
-              <li><strong>d)</strong> Era um líder indígena que lutava pela preservação das terras nativas.</li>
-              <li><strong>e)</strong> Era um comerciante local que fomentava conflitos por interesses financeiros.</li>
-            </ul>
-            <details class="quiz__answer"><summary>Ver resposta correta</summary>
-              <p><strong>Letra B.</strong> Antônio Conselheiro era considerado um líder religioso e social, reunindo milhares de seguidores pelo sertão do Nordeste.</p>
-            </details>
-          </li>
-
-          <li class="quiz__item">
-            <h3 class="quiz__q">03. Qual foi a característica mais marcante das ações governamentais contra o arraial?</h3>
-            <ul class="quiz__opts">
-              <li><strong>a)</strong> O governo tentou inicialmente negociar com Antônio Conselheiro.</li>
-              <li><strong>b)</strong> As expedições foram rápidas e bem-sucedidas, encerrando o conflito em poucos meses.</li>
-              <li><strong>c)</strong> O governo desencadeou múltiplas expedições, culminando na destruição completa do arraial após intensa resistência popular.</li>
-              <li><strong>d)</strong> As tropas foram compostas principalmente por mercenários estrangeiros.</li>
-              <li><strong>e)</strong> O governo optou por uma solução política, concedendo autonomia ao arraial.</li>
-            </ul>
-            <details class="quiz__answer"><summary>Ver resposta correta</summary>
-              <p><strong>Letra C.</strong> O governo realizou várias expedições militares; nas primeiras foi derrotado e, na última, reagiu de forma extremamente violenta, destruindo Canudos.</p>
-            </details>
-          </li>
-
-          <li class="quiz__item">
-            <h3 class="quiz__q">04. Qual foi uma das consequências mais relevantes do conflito para o Brasil republicano?</h3>
-            <ul class="quiz__opts">
-              <li><strong>a)</strong> A rápida integração das populações sertanejas aos centros urbanos.</li>
-              <li><strong>b)</strong> O fortalecimento do movimento monarquista, que recuperou o poder no Brasil.</li>
-              <li><strong>c)</strong> A exposição das tensões sociais e as dificuldades do governo republicano para controlar regiões afastadas.</li>
-              <li><strong>d)</strong> A divisão oficial do Brasil em dois países.</li>
-              <li><strong>e)</strong> O reconhecimento internacional do movimento de Canudos como Estado soberano.</li>
-            </ul>
-            <details class="quiz__answer"><summary>Ver resposta correta</summary>
-              <p><strong>Letra C.</strong> A Guerra de Canudos tornou-se símbolo do problema do governo republicano em controlar áreas remotas e da forma como reagia a movimentos sociais.</p>
-            </details>
-          </li>
-
-          <li class="quiz__item">
-            <h3 class="quiz__q">05. Qual aspecto melhor representa a organização social do arraial de Canudos?</h3>
-            <ul class="quiz__opts">
-              <li><strong>a)</strong> Hierarquia econômica rígida, baseada na propriedade privada e no comércio intenso.</li>
-              <li><strong>b)</strong> Funcionava como um exército regular, com divisão clara de funções militares e civis.</li>
-              <li><strong>c)</strong> Comunidade organizada em torno da solidariedade, das crenças religiosas e do compartilhamento de recursos, sem hierarquias tradicionais.</li>
-              <li><strong>d)</strong> Centro comercial próspero, com intensa atividade mercantil.</li>
-              <li><strong>e)</strong> Território controlado diretamente por oficiais do exército brasileiro.</li>
-            </ul>
-            <details class="quiz__answer"><summary>Ver resposta correta</summary>
-              <p><strong>Letra C.</strong> Canudos apresentava um modo de vida baseado em compartilhamento e respeito — algo oposto ao governo republicano.</p>
-            </details>
-          </li>
-
-          <li class="quiz__item">
-            <h3 class="quiz__q">06. Qual foi o impacto principal da cobertura jornalística do conflito?</h3>
-            <ul class="quiz__opts">
-              <li><strong>a)</strong> A imprensa ignorou completamente o conflito.</li>
-              <li><strong>b)</strong> A imprensa sensacionalista retratou os habitantes como fanáticos violentos, justificando a repressão militar.</li>
-              <li><strong>c)</strong> A cobertura foi neutra e imparcial.</li>
-              <li><strong>d)</strong> Os jornais locais apoiaram abertamente o movimento.</li>
-              <li><strong>e)</strong> A imprensa focou exclusivamente nos aspectos econômicos.</li>
-            </ul>
-            <details class="quiz__answer"><summary>Ver resposta correta</summary>
-              <p><strong>Letra B.</strong> A imprensa relatou o conflito de forma distorcida, retratando a comunidade como fanática. Isso legitimou as ações militares do governo.</p>
-            </details>
-          </li>
-
-          <li class="quiz__item">
-            <h3 class="quiz__q">07. Qual desafio o período de transição entre Império e República representou para o governo em relação a movimentos como Canudos?</h3>
-            <ul class="quiz__opts">
-              <li><strong>a)</strong> Desafios econômicos que isolavam as regiões sertanejas.</li>
-              <li><strong>b)</strong> Impor a autoridade da República em regiões remotas, onde movimentos sociais resistiam às mudanças políticas.</li>
-              <li><strong>c)</strong> Ameaças de invasões estrangeiras que tentavam desestabilizar a República.</li>
-              <li><strong>d)</strong> Conter a propagação de religiões estrangeiras.</li>
-              <li><strong>e)</strong> O governo dependia exclusivamente das forças militares para resolver conflitos internos.</li>
-            </ul>
-            <details class="quiz__answer"><summary>Ver resposta correta</summary>
-              <p><strong>Letra B.</strong> Canudos é exemplo de movimento social diante do qual o governo enfrentava o desafio de impor sua autoridade em regiões remotas.</p>
-            </details>
-          </li>
-
-          <li class="quiz__item">
-            <h3 class="quiz__q">08. Qual foi a consequência imediata do desfecho da guerra para os sobreviventes e a região?</h3>
-            <ul class="quiz__opts">
-              <li><strong>a)</strong> Os sobreviventes foram acolhidos pelo governo e receberam terras.</li>
-              <li><strong>b)</strong> O arraial foi destruído, os sobreviventes dispersos, e a região ficou marcada pelo abandono e pela repressão governamental.</li>
-              <li><strong>c)</strong> O governo reconheceu oficialmente Canudos como comunidade autônoma.</li>
-              <li><strong>d)</strong> A área foi transformada em centro urbano próspero.</li>
-              <li><strong>e)</strong> Os moradores foram retirados pacificamente sob acordo de anistia.</li>
-            </ul>
-            <details class="quiz__answer"><summary>Ver resposta correta</summary>
-              <p><strong>Letra B.</strong> Os poucos sobreviventes foram tratados como prisioneiros de guerra. A região ficou devastada, abandonada e reprimida.</p>
-            </details>
-          </li>
-
-          <li class="quiz__item">
-            <h3 class="quiz__q">09. Qual é a principal contradição representada no conflito entre diferentes visões de Brasil?</h3>
-            <ul class="quiz__opts">
-              <li><strong>a)</strong> A disputa entre diferentes grupos econômicos do Sul e do Nordeste.</li>
-              <li><strong>b)</strong> A contradição entre o Brasil rural, tradicional e marginalizado, e o Brasil urbano, moderno e republicano.</li>
-              <li><strong>c)</strong> O confronto entre diferentes religiões predominantes no Brasil imperial e republicano.</li>
-              <li><strong>d)</strong> A disputa entre o exército brasileiro e forças militares estrangeiras.</li>
-              <li><strong>e)</strong> A luta por mudanças constitucionais que alteraram a estrutura do governo federal.</li>
-            </ul>
-            <details class="quiz__answer"><summary>Ver resposta correta</summary>
-              <p><strong>Letra B.</strong> A Guerra de Canudos simboliza o choque entre um Brasil rural e marginalizado e um Brasil urbano e moderno — evidenciando tensões sociais profundas desse período.</p>
-            </details>
-          </li>
-
-          <li class="quiz__item">
-            <h3 class="quiz__q">10. Qual é a contribuição mais importante da obra <em>Os Sertões</em>, de Euclides da Cunha?</h3>
-            <ul class="quiz__opts">
-              <li><strong>a)</strong> Romance ficcional que romantiza a figura de Antônio Conselheiro.</li>
-              <li><strong>b)</strong> Tratado militar que analisa as estratégias do exército na guerra.</li>
-              <li><strong>c)</strong> Estudo que combina análise geográfica, sociológica e histórica para compreender o conflito e o sertão nordestino.</li>
-              <li><strong>d)</strong> Relatório oficial do governo que justifica as ações militares.</li>
-              <li><strong>e)</strong> Documento religioso que promove as ideias de Antônio Conselheiro.</li>
-            </ul>
-            <details class="quiz__answer"><summary>Ver resposta correta</summary>
-              <p><strong>Letra C.</strong> <em>Os Sertões</em> combina análise geográfica, sociológica e histórica. Não é romance — retrata os fatos com rigor científico e narrativo.</p>
-            </details>
-          </li>
-        </ol>
-      </section>
-
-      <!-- VÍDEO -->
-      <section class="section">
-        <span class="section__num">09</span>
-        <h2>Vídeo sobre a guerra de Canudos</h2>
-        <div class="video">
-          <iframe
-            src="https://www.youtube.com/embed/cGf8mjff6ss"
-            title="A Guerra de Canudos"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-            loading="lazy"
-          ></iframe>
-        </div>
-      </section>
-
-    </div><!-- /.conteudo-inner -->
-
-    <footer class="footer">
-      <div class="footer__inner">
-        <p>Trabalho escolar de História sobre a revolta de Canudos</p>
-        <p>Fontes: <em>Os Sertões</em>, de Euclides da Cunha · Memorial de Canudos · UFBA</p>
-      </div>
-    </footer>
-
-    </div><!-- /.aba-conteudo Revolta de Canudos -->
+      <footer class="footer"><div class="footer__inner"><p>Trabalho escolar de História sobre a revolta de Canudos</p><p>Fontes: <em>Os Sertões</em>, de Euclides da Cunha · Memorial de Canudos · UFBA</p></div></footer>
+    </div>
 
     <!-- ABA: Revolta do Forte de Copacabana -->
     <div class="aba-conteudo" data-aba="Revolta do Forte de Copacabana" style="display:none">
-
       <div class="forte-hero">
         <div class="forte-hero__eyebrow">5 de julho de 1922</div>
         <h2 class="forte-hero__title">A Revolta do Forte<br>de Copacabana</h2>
         <div class="forte-hero__sub">— Os 18 do Forte —</div>
       </div>
-
       <div class="forte-inner">
-
-        <section class="forte-section forte-resumo">
-          <h3>Resumo</h3>
-          <p>A <strong>Revolta do Forte de Copacabana</strong>, ocorrida em <strong>5 de julho de 1922</strong>, no Rio de Janeiro, foi o primeiro grande levante do movimento conhecido como <em>tenentismo</em>. Jovens oficiais do Exército Brasileiro insurgiram-se contra o governo de <strong>Epitácio Pessoa</strong> e contra a posse do presidente eleito <strong>Artur Bernardes</strong>, em protesto contra a corrupção, a política dominada pelas oligarquias do café com leite (São Paulo e Minas Gerais) e o fechamento do Clube Militar.</p>
-          <p>Cercados e em desvantagem, os revoltosos do forte resolveram marchar pela Avenida Atlântica ao encontro das tropas legalistas. Dos 28 que iniciaram a marcha, restaram <strong>18 combatentes</strong> (incluindo um civil), que ficaram conhecidos como <strong>"Os 18 do Forte de Copacabana"</strong>. Quase todos foram mortos ou feridos, mas o episódio tornou-se símbolo da luta contra a República Velha.</p>
+        <section class="forte-section forte-resumo"><h3>Resumo</h3><p>A <strong>Revolta do Forte de Copacabana</strong>, ocorrida em <strong>5 de julho de 1922</strong>, foi o primeiro grande levante do <em>tenentismo</em>. Jovens oficiais insurgiram-se contra o governo de <strong>Epitácio Pessoa</strong> e contra o domínio das oligarquias do café com leite.</p><p>Restaram <strong>18 combatentes</strong> que ficaram conhecidos como <strong>"Os 18 do Forte de Copacabana"</strong>. Quase todos foram mortos ou feridos, mas o episódio tornou-se símbolo da luta contra a República Velha.</p></section>
+        <section class="forte-section"><h3>Vídeo sobre a revolta dos 18</h3><div class="forte-video"><iframe src="https://drive.google.com/file/d/1IjQBf9rPVOeWn5IZ7NWWKNTjZOjV5oLR/preview" allowfullscreen allow="encrypted-media *;" loading="lazy"></iframe></div></section>
+        <section class="forte-section"><h3>Questões de vestibular</h3>
+          <div class="forte-questao" data-correta="1"><span class="forte-tag">ENEM Digital 2020</span><p class="forte-enunciado">Um dos objetivos do movimento tenentista era</p><ul class="forte-opcoes"><li>a) unificar as Forças Armadas pelo comando do Exército nacional.</li><li>b) combater a corrupção eleitoral perpetrada pelas oligarquias regionais.</li><li>c) restaurar a segurança das fronteiras negligenciadas pelo governo central.</li><li>d) organizar as frentes camponesas envolvidas na luta pela reforma agrária.</li><li>e) pacificar os movimentos operários radicalizados pelo anarco-sindicalismo.</li></ul><details class="forte-gabarito"><summary>Ver gabarito</summary><p><strong>Gabarito: B</strong> — O tenentismo buscava combater a corrupção eleitoral e o domínio das oligarquias regionais na República Velha.</p></details></div>
         </section>
+        <section class="forte-section"><h3>Incidência das Questões no ENEM</h3><div class="forte-imagem"><img src="image.png" alt="Gráfico ENEM Copacabana"></div></section>
+        <footer class="forte-footer"><p><strong>Revolta do Forte de Copacabana (1922)</strong></p></footer>
+      </div>
+    </div>
 
-        <section class="forte-section">
-          <h3>Vídeo sobre a revolta dos 18</h3>
-          <div class="forte-video">
-            <iframe
-              src="https://drive.google.com/file/d/1IjQBf9rPVOeWn5IZ7NWWKNTjZOjV5oLR/preview"
-              allowfullscreen
-              allow="encrypted-media *;"
-              loading="lazy"
-            ></iframe>
-          </div>
-        </section>
-
-        <section class="forte-section">
-          <h3>Questões de vestibular sobre a Revolta</h3>
-
-          <div class="forte-questao" data-correta="1">
-            <span class="forte-tag">ENEM Digital 2020</span>
-            <p class="forte-enunciado">(ENEM) O tenentismo veio preencher um espaço: o vazio deixado pela falta de lideranças civis aptas a conduzirem o processo revolucionário brasileiro que começava a sacudir as já caducas instituições políticas da República Velha. Os "tenentes" substituíram os inexistentes partidos políticos de oposição aos governos de Epitácio Pessoa e de Artur Bernardes.<br><br>PRESTES, A. L. Uma epopeia brasileira: a Coluna Prestes. São Paulo: Moderna, 1995 (adaptado).<br><br>Um dos objetivos do movimento político abordado no texto era</p>
-            <ul class="forte-opcoes">
-              <li>a) unificar as Forças Armadas pelo comando do Exército nacional.</li>
-              <li>b) combater a corrupção eleitoral perpetrada pelas oligarquias regionais.</li>
-              <li>c) restaurar a segurança das fronteiras negligenciadas pelo governo central.</li>
-              <li>d) organizar as frentes camponesas envolvidas na luta pela reforma agrária.</li>
-              <li>e) pacificar os movimentos operários radicalizados pelo anarco-sindicalismo.</li>
-            </ul>
-            <details class="forte-gabarito"><summary>Ver gabarito</summary>
-              <p><strong>Gabarito: B</strong> — O tenentismo buscava combater a corrupção eleitoral e o domínio das oligarquias regionais na República Velha.</p>
-            </details>
-          </div>
-
-          <div class="forte-questao" data-correta="3">
-            <span class="forte-tag">ENEM 2011</span>
-            <p class="forte-enunciado">(ENEM) "É difícil encontrar um texto sobre a Proclamação da República no Brasil que não cite a afirmação de Aristides Lobo… o Brasil brasileiro teria nascido em 1930."<br><br>Os defensores da Revolução de 1930 procuraram construir uma visão negativa dos eventos de 1889 porque esta era uma maneira de</p>
-            <ul class="forte-opcoes">
-              <li>A) valorizar as propostas políticas democráticas e liberais vitoriosas.</li>
-              <li>B) resgatar simbolicamente as figuras políticas ligadas à Monarquia.</li>
-              <li>C) criticar a política educacional adotada durante a República Velha.</li>
-              <li>D) legitimar a ordem política inaugurada com a chegada desse grupo ao poder.</li>
-              <li>E) destacar a ampla participação popular obtida no processo da Proclamação.</li>
-            </ul>
-            <details class="forte-gabarito"><summary>Ver gabarito</summary>
-              <p><strong>Gabarito: D</strong> — Ao pintar 1889 negativamente, os defensores de 1930 legitimavam sua própria tomada de poder como o "verdadeiro" Brasil moderno.</p>
-            </details>
-          </div>
-
-          <div class="forte-questao" data-correta="4">
-            <span class="forte-tag">ENEM 2011</span>
-            <p class="forte-enunciado">(ENEM) O coronelismo, fenômeno político da Primeira República (1889–1930), tinha como uma de suas principais características o controle do voto. Nesse período, esta prática estava vinculada a uma estrutura social</p>
-            <ul class="forte-opcoes">
-              <li>A) igualitária, com um nível satisfatório de distribuição da renda.</li>
-              <li>B) estagnada, com uma relativa harmonia entre as classes.</li>
-              <li>C) tradicional, com a manutenção da escravidão nos engenhos como forma produtiva típica.</li>
-              <li>D) ditatorial, perturbada por um constante clima de opressão mantido pelo exército e polícia.</li>
-              <li>E) agrária, marcada pela concentração da terra e do poder político local e regional.</li>
-            </ul>
-            <details class="forte-gabarito"><summary>Ver gabarito</summary>
-              <p><strong>Gabarito: E</strong> — O coronelismo é intrinsecamente ligado à estrutura agrária da Primeira República, onde concentração de terras se traduzia em controle político.</p>
-            </details>
-          </div>
-
-          <div class="forte-questao" data-correta="4">
-            <span class="forte-tag">ESA</span>
-            <p class="forte-enunciado">(ESA) No dia 05 de julho de 1922, jovens oficiais resolveram abandonar o forte e marchar pela praia de Copacabana, no Rio de Janeiro, para enfrentar as forças legalistas. Esse episódio, conhecido como "os 18 do Forte",</p>
-            <ul class="forte-opcoes">
-              <li>a) provocou, imediatamente, a queda do último presidente da República do "Café-com-Leite".</li>
-              <li>b) provocou a renúncia do Presidente Artur Bernardes.</li>
-              <li>c) levou o Governo Federal a transferir a Escola de Formação de Oficiais do Rio de Janeiro para Porto Alegre.</li>
-              <li>d) deu início a um período ditatorial, interrompido apenas com a Revolução de 1930.</li>
-              <li>e) originou o movimento denominado de Tenentismo.</li>
-            </ul>
-            <details class="forte-gabarito"><summary>Ver gabarito</summary>
-              <p><strong>Resposta: E</strong> — O episódio dos "18 do Forte" deu início ao movimento tenentista, caracterizado pela tentativa de reforma política e enfraquecimento do poder oligárquico.</p>
-            </details>
-          </div>
-
-          <div class="forte-questao" data-correta="3">
-            <span class="forte-tag">ACAFE</span>
-            <p class="forte-enunciado">(ACAFE) "Dezessete militares, com a adesão ocasional de um civil, decidiram sair pela praia de Copacabana, ao encontro das forças governamentais… Os Dezoito do Forte começavam a criar a legenda do tenentismo." — FAUSTO, Boris. História do Brasil.<br><br>Acerca desse movimento, assinale a alternativa correta.</p>
-            <ul class="forte-opcoes">
-              <li>a) A Revolta do Forte de Copacabana foi uma tentativa de impedir a posse de Humberto Castelo Branco após a efetivação do regime militar no Brasil.</li>
-              <li>b) Combateram principalmente o governo provisório de Getúlio Vargas e exigiam a criação de uma nova constituição.</li>
-              <li>c) As principais revoltas tenentistas ocorreram após a implantação do Estado Novo por Getúlio Vargas, com o apoio de militares de alta patente.</li>
-              <li>d) Ocorreu na chamada República Velha ou Oligárquica. Buscavam mudanças no cenário político, administrativo e eleitoral do Brasil.</li>
-            </ul>
-            <details class="forte-gabarito"><summary>Ver gabarito</summary>
-              <p><strong>Resposta: D</strong> — A Revolta ocorreu na República Velha, buscando reformas políticas e administrativas; não se relaciona ao Regime Militar de 1964 nem ao Estado Novo.</p>
-            </details>
-          </div>
-
-          <div class="forte-questao" data-correta="4">
-            <span class="forte-tag">FGV-RJ</span>
-            <p class="forte-enunciado">(FGV-RJ) A imagem retrata a marcha dos "18 do Forte", ocorrida em 5 de julho de 1922, quando o Forte de Copacabana foi tomado durante um levante militar. Esse movimento está relacionado</p>
-            <ul class="forte-opcoes">
-              <li>A) à indignação dos militares em relação à política externa brasileira, considerada subserviente aos interesses norte-americanos.</li>
-              <li>B) à reação contra a chamada Coluna Prestes, que percorria o interior do Brasil combatendo as forças do exército.</li>
-              <li>C) à repressão ao Partido Comunista Brasileiro, que acabara de ser fundado por influência da Revolução Bolchevique.</li>
-              <li>D) aos interesses das elites de São Paulo e Minas Gerais, que estimulavam o levante contra o centralismo do Rio de Janeiro.</li>
-              <li>E) ao tenentismo, movimento nacionalista que propunha reformas na estrutura do poder político oligárquico do país.</li>
-            </ul>
-            <details class="forte-gabarito"><summary>Ver gabarito</summary>
-              <p><strong>Resposta: E</strong> — O tenentismo era um movimento nacionalista que buscava reformas na estrutura política oligárquica do Brasil.</p>
-            </details>
-          </div>
-
-        </section>
-
-        <section class="forte-section">
-          <h3>Incidência das Questões no ENEM</h3>
-          <p>Veja a frequência com que o tema da Revolta do Forte de Copacabana e do Tenentismo aparece nas provas do ENEM desde 2009.</p>
-          <div class="forte-imagem">
-            <img src="image.png" alt="Gráfico: índice de cobrança do ENEM sobre a Revolta de Copacabana desde 2009">
-          </div>
-        </section>
-
-        <footer class="forte-footer">
-          <p><strong>Revolta do Forte de Copacabana (1922)</strong></p>
-        </footer>
-
-      </div><!-- /.forte-inner -->
-    </div><!-- /.aba-conteudo Revolta do Forte de Copacabana -->
-    <!-- ABA: REVOLTA FEDERALISTA -->
+    <!-- ABA: Revolta Federalista -->
     <div class="aba-conteudo" data-aba="Revolta Federalista" style="display:none">
       <div class="fed-jornal">
         <div class="fed-conteudo">
-
-          <!-- CABEÇALHO -->
           <header class="fed-cabecalho">
             <div class="fed-subtitulo">📜 Gazeta Histórica Sul-Rio-Grandense 📜</div>
             <h2 class="fed-titulo">A Revolução Federalista</h2>
             <div class="fed-data">1893 — 1895 &bull; Rio Grande do Sul &bull; Brasil</div>
           </header>
-
-          <!-- SEÇÃO: TEXTO -->
-          <div class="fed-ornamento"><span>✦</span> <span>✧</span> <span>✦</span></div>
+          <div class="fed-ornamento"><span>✦</span><span>✧</span><span>✦</span></div>
           <h3 class="fed-titulo-secao">A Grande Revolta Gaúcha</h3>
-
           <div class="fed-texto-historico">
-            <p>A Revolução Federalista, também conhecida tragicamente como a Guerra da Degola, foi uma violenta guerra civil que assolou a Região Sul (Rio Grande do Sul) do Brasil entre fevereiro de 1893 e agosto de 1895. O conflito eclodiu apenas alguns anos após a Proclamação da República, em um cenário de grande instabilidade e disputas de poder. Com o fim do Império, a política gaúcha polarizou-se entre o Partido Republicano Rio-Grandense (PRR), liderado pelo positivista Júlio de Castilhos, e o Partido Federalista, fundado pelo parlamentarista Gaspar Silveira Martins.</p>
-            <p>No centro da crise política estava a figura de Júlio de Castilhos. Seguidor do positivismo, Castilhos defendia a necessidade de uma ditadura republicana centralizada para consolidar o novo regime. Em julho de 1891, ele aprovou uma constituição estadual redigida quase exclusivamente por ele próprio. O texto concentrava os poderes no chefe do executivo, permitia reeleições infinitas e previa o voto não secreto. Após ser brevemente deposto por apoiar o golpe de Deodoro da Fonseca, Castilhos retornou ao poder em janeiro de 1893 por meio de uma eleição sem concorrentes, gerando forte indignação na oposição.</p>
-            <div class="fed-destaque">
-              &ldquo;O Rio Grande ensanguentado clama por justiça e paz — mas a paz verdadeira só virá quando a vontade do povo for respeitada.&rdquo;
-              <br><small>— Trecho de manifesto federalista, 1894</small>
-            </div>
-            <p>De um lado estavam os <em>"Pica-paus"</em> ou <em>"Ximangos"</em>, os republicanos que apoiavam Júlio de Castilhos e o governo federal de Floriano Peixoto. Do outro lado estavam os <em>"Maragatos"</em>, os federalistas. A ofensiva federalista começou em 2 de fevereiro de 1893, quando as tropas de federalistas invadiram o Rio Grande do Sul a partir da fronteira uruguaia. Os rebeldes exigiam a deposição de Júlio de Castilhos e a realização de um plebiscito. Diante do avanço maragato, Floriano Peixoto enviou o Exército Federal em socorro a Castilhos, nacionalizando o conflito.</p>
-            <p>Após a primeira vitória maragata no arroio Inhanduí, em maio de 1893, Gumercindo Saraiva iniciou uma série de ataques rápidos rumo ao norte, avançando sobre Santa Catarina e Paraná. Contudo, os planos dos maragatos foram contidos no início de 1894 pelo <strong>Cerco da Lapa</strong>, no Paraná, onde 938 homens resistiram por 26 dias contra três mil combatentes. Em 23 de agosto de 1895, na cidade de Pelotas, foi assinado o tratado de paz. Ao todo, a Revolução Federalista deixou um saldo trágico de aproximadamente <strong>10 mil mortos</strong>.</p>
+            <p>A Revolução Federalista, também conhecida como a Guerra da Degola, foi uma violenta guerra civil que assolou a Região Sul do Brasil entre fevereiro de 1893 e agosto de 1895. O conflito eclodiu após a Proclamação da República, em um cenário de grande instabilidade.</p>
+            <p>No centro da crise estava Júlio de Castilhos. Em julho de 1891, ele aprovou uma constituição estadual que concentrava os poderes no executivo, permitia reeleições infinitas e previa o voto não secreto.</p>
+            <div class="fed-destaque">&ldquo;O Rio Grande ensanguentado clama por justiça e paz.&rdquo;<br><small>— Trecho de manifesto federalista, 1894</small></div>
+            <p>De um lado estavam os <em>"Pica-paus"</em>, os republicanos que apoiavam Castilhos. Do outro, os <em>"Maragatos"</em>, os federalistas. Em 23 de agosto de 1895, foi assinado o tratado de paz em Pelotas. Ao todo, a Revolução Federalista deixou aproximadamente <strong>10 mil mortos</strong>.</p>
           </div>
-
           <hr class="fed-linha">
-
-          <!-- SEÇÃO: VÍDEOS -->
-          <div class="fed-ornamento"><span>✧</span> <span>✦</span> <span>✧</span></div>
+          <div class="fed-ornamento"><span>✧</span><span>✦</span><span>✧</span></div>
           <h3 class="fed-titulo-secao">Cinematógrafo Histórico</h3>
-
-          <div class="fed-moldura-video">
-            <div class="fed-placa">🎞 Entrevista 🎞</div>
-            <div class="fed-video-wrapper" id="fed-containerEntrevista">
-              <div class="fed-placeholder" id="fed-placeholderEntrevista" title="Clique para assistir">
-                <span class="fed-icone-play">▶</span>
-                <span>Clique para Assistir</span>
-                <small>Revolução Federalista — Entrevista</small>
-              </div>
-            </div>
-            <div class="fed-legenda">Acervo audiovisual — Entrevista com historiador</div>
-          </div>
-
-          <div class="fed-moldura-video">
-            <div class="fed-placa">🎞 Vídeo Explicativo 🎞</div>
-            <div class="fed-video-wrapper" id="fed-containerExplicativo">
-              <div class="fed-placeholder" id="fed-placeholderExplicativo" title="Clique para assistir">
-                <span class="fed-icone-play">▶</span>
-                <span>Clique para Assistir</span>
-                <small>Revolução Federalista — Documentário</small>
-              </div>
-            </div>
-            <div class="fed-legenda">Acervo audiovisual — A Revolução Federalista (1893–1895)</div>
-          </div>
-
+          <div class="fed-moldura-video"><div class="fed-placa">🎞 Entrevista 🎞</div><div class="fed-video-wrapper" id="fed-containerEntrevista"><div class="fed-placeholder" id="fed-placeholderEntrevista"><span class="fed-icone-play">▶</span><span>Clique para Assistir</span><small>Revolução Federalista — Entrevista</small></div></div><div class="fed-legenda">Acervo audiovisual — Entrevista com historiador</div></div>
+          <div class="fed-moldura-video"><div class="fed-placa">🎞 Vídeo Explicativo 🎞</div><div class="fed-video-wrapper" id="fed-containerExplicativo"><div class="fed-placeholder" id="fed-placeholderExplicativo"><span class="fed-icone-play">▶</span><span>Clique para Assistir</span><small>Revolução Federalista — Documentário</small></div></div><div class="fed-legenda">Acervo audiovisual — A Revolução Federalista (1893–1895)</div></div>
           <hr class="fed-linha">
-
-          <!-- SEÇÃO: QUESTÕES -->
-          <div class="fed-ornamento"><span>✦</span> <span>✧</span> <span>✦</span></div>
+          <div class="fed-ornamento"><span>✦</span><span>✧</span><span>✦</span></div>
           <h3 class="fed-titulo-secao">Questões Comentadas</h3>
-          <p style="text-align:center;font-style:italic;font-size:0.85rem;margin-bottom:18px;color:#5a3825;">Teste seus conhecimentos. Clique nas alternativas e depois em "Revelar Comentário".</p>
-
-          <!-- Questão 1 -->
-          <div class="fed-questao-card" id="fed-questao1">
-            <div class="fed-num-questao">1</div>
-            <p class="fed-enunciado">(UFRGS) Com a Proclamação da República em 1889, subiu ao poder no Rio Grande do Sul um novo partido, o Partido Republicano Rio-grandense (PRR), cuja base social era formada por indivíduos oriundos do latifúndio pecuarista, associados com os setores médios urbanos. O PRR adotou como ideologia o Positivismo, mas de maneira não ortodoxa.<br><br>Considere as afirmações abaixo, sobre o governo do PRR no Rio Grande do Sul.</p>
-            <p class="fed-enunciado">I - Enfrentou duas revoltas armadas, a Revolução Federalista de 1893 e a Revolução de 1923, organizadas pelos setores da oposição maragata.</p>
-            <p class="fed-enunciado">II - Adotou uma forma de governo democrática, com independência entre os três poderes e limitações amplas à atuação do Poder Executivo.</p>
-            <p class="fed-enunciado">III - Almejou um desenvolvimento global da economia do estado, a partir de um projeto econômico de modernização capitalista do Rio Grande do Sul.</p>
-            <p class="fed-enunciado">Quais estão corretas?</p>
-            <ul class="fed-alternativas" data-questao="fed1">
-              <li data-correta="false">A) Apenas I</li>
-              <li data-correta="true">B) Apenas I e III</li>
-              <li data-correta="false">C) Apenas I e II</li>
-              <li data-correta="false">D) Apenas II e III</li>
-              <li data-correta="false">E) Todas estão corretas</li>
-            </ul>
-            <button class="fed-btn-revelar" data-questao="fed1">🔍 Revelar Comentário</button>
-            <div class="fed-comentario" id="fed-comentario-fed1">
-              <strong>Resposta: B — Apenas I e III.</strong><br>
-              I — Verdadeira, o PRR enfrentou ambas as revoluções.<br>
-              II — Falsa, o governo concentrava o poder no executivo com autoritarismo e coronelismo.<br>
-              III — Verdadeira, o PRR queria transformar o RS em um estado mais moderno e produtivo.
-            </div>
-          </div>
-
-          <!-- Questão 2 -->
-          <div class="fed-questao-card" id="fed-questao2">
-            <div class="fed-num-questao">2</div>
-            <p class="fed-enunciado">(UDESC) Sobre a Revolução Federalista e suas implicações no Estado de Santa Catarina, assinale a alternativa <strong>incorreta</strong>.</p>
-            <ul class="fed-alternativas" data-questao="fed2">
-              <li data-correta="true">A) A Revolução Federalista foi um movimento monarquista iniciado em 1893, em Santa Catarina, que se contrapunha à República, defendendo o retorno de Dom Pedro II ao poder.</li>
-              <li data-correta="false">B) A Revolução Federalista foi um movimento político iniciado em 1893, em oposição ao autoritarismo do Presidente Floriano Peixoto. A Revolução inicia no Rio Grande do Sul, mas logo atinge aos demais Estados do Sul.</li>
-              <li data-correta="false">C) A Revolução Federalista, em Santa Catarina, foi marcada por uma série de conflitos entre os republicanos que apoiavam Floriano Peixoto e os federalistas.</li>
-              <li data-correta="false">D) Os conflitos entre federalistas e florianistas cessam no Estado quando as tropas de Moreira Cesar ocupam a cidade de Desterro e passam à repressão e punição dos federalistas.</li>
-              <li data-correta="false">E) A vitória dos republicanos sobre os federalistas é marcada pela mudança do nome da capital, Desterro, para Florianópolis, em homenagem a Floriano Peixoto.</li>
-            </ul>
-            <button class="fed-btn-revelar" data-questao="fed2">🔍 Revelar Comentário</button>
-            <div class="fed-comentario" id="fed-comentario-fed2">
-              <strong>Resposta: Letra A</strong><br>
-              a) INCORRETA (e portanto a resposta): A revolução federalista não foi um movimento monarquista. Ela possuía caráter federalista, defendendo maior autonomia dos estados.<br>
-              b) CORRETA: A revolta se iniciou no RS, contra o governo de Floriano Peixoto, e logo se expandiu.<br>
-              c) CORRETA: O conflito foi marcado por combates entre republicanos e federalistas.<br>
-              d) CORRETA: A repressão aconteceu após a ocupação de Desterro com as tropas de Moreira César.<br>
-              e) CORRETA: A mudança de nome para Florianópolis consolidou a vitória dos republicanos.
-            </div>
-          </div>
-
-          <!-- Questão 3 -->
-          <div class="fed-questao-card" id="fed-questao3">
-            <div class="fed-num-questao">3</div>
-            <p class="fed-enunciado">(UEM) Foi durante o Governo de Floriano Peixoto que ocorreu a Revolução Federalista. Sobre esse assunto, assinale a(s) alternativa(s) correta(s).</p>
-            <p class="fed-enunciado">1) Os federalistas invocavam o espírito da Federação e exigiam mais energia por parte do Governo central e, consequentemente, que ele tirasse a autonomia dos Estados.</p>
-            <p class="fed-enunciado">02) A Revolução Federalista objetivava a realização de uma revolução socialista que suprimisse a propriedade privada dos meios de produção.</p>
-            <p class="fed-enunciado">04) Os federalistas queriam que o presidente Floriano Peixoto governasse de uma forma menos centralizadora, dando mais autonomia aos Estados.</p>
-            <p class="fed-enunciado">08) A Revolução Federalista teve, também, como palco as cidades paranaenses de Lapa e Curitiba.</p>
-            <p class="fed-enunciado">16) Os líderes da Revolução Federalista almejavam depor o governo de Floriano Peixoto e reimplantar a monarquia constitucional no Brasil.</p>
-            <p class="fed-enunciado">A somatória das proposições corretas dá:</p>
-            <ul class="fed-alternativas" data-questao="fed3">
-              <li data-correta="false">A) 03</li>
-              <li data-correta="false">B) 17</li>
-              <li data-correta="false">C) 20</li>
-              <li data-correta="false">D) 16</li>
-              <li data-correta="true">E) 12</li>
-            </ul>
-            <button class="fed-btn-revelar" data-questao="fed3">🔍 Revelar Comentário</button>
-            <div class="fed-comentario" id="fed-comentario-fed3">
-              <strong>Resposta: E — 12</strong><br>
-              01) INCORRETA: Os federalistas eram contra a centralização de Floriano Peixoto e Castilhos.<br>
-              02) INCORRETA: A revolta não possuía caráter socialista, era um movimento político/oligárquico.<br>
-              04) CORRETA: Os federalistas queriam parlamentarismo e mais autonomia estadual.<br>
-              08) CORRETA: O conflito expandiu do RS para o Paraná, onde ocorreu o Cerco da Lapa.<br>
-              16) INCORRETA: Embora alguns tivessem simpatias monarquistas, o objetivo não era instaurar a monarquia.
-            </div>
-          </div>
-
-          <!-- Questão 4 -->
-          <div class="fed-questao-card" id="fed-questao4">
-            <div class="fed-num-questao">4</div>
-            <p class="fed-enunciado">(UPF) A Revolução Federalista (1893-1895) foi um dos mais importantes episódios ocorridos no Rio Grande do Sul e que contribuiu para consolidar a República brasileira. Sobre este movimento, é possível afirmar:</p>
-            <ul class="fed-alternativas" data-questao="fed4">
-              <li data-correta="false">A) Os federalistas tinham como principal objetivo restaurar a Monarquia no Brasil, pois a forma republicana de governo estava levando o país à bancarrota.</li>
-              <li data-correta="true">B) Iniciou como um conflito entre facções políticas do Rio Grande do Sul pelo controle do governo estadual e acabou se transformando em um conflito nacional quando o presidente da República, Floriano Peixoto, apoiou uma das facções em luta.</li>
-              <li data-correta="false">C) Um fator que também contribuiu para dar caráter nacional ao conflito foi a tentativa dos rio-grandenses de vinculá-lo à Revolta de Canudos para somar esforços na luta contra a República.</li>
-              <li data-correta="false">D) Foi um movimento que ficou mais no plano ideológico; ao defender os valores humanistas, pensavam os federalistas em obter o apoio da população brasileira dos outros estados.</li>
-              <li data-correta="false">E) Um dos motivos da derrota dos federalistas é que eles restringiram o movimento armado ao Rio Grande do Sul.</li>
-            </ul>
-            <button class="fed-btn-revelar" data-questao="fed4">🔍 Revelar Comentário</button>
-            <div class="fed-comentario" id="fed-comentario-fed4">
-              <strong>Resposta: Letra B</strong><br>
-              b) CORRETA: A Revolução Federalista nasceu de uma rivalidade regional entre "pica-paus" e "maragatos" pelo controle do RS, e ganhou dimensões nacionais com a intervenção de Floriano Peixoto em favor de Castilhos.<br>
-              a) INCORRETA: O movimento era federalista, não monarquista.<br>
-              c) INCORRETA: A Guerra de Canudos ocorreu depois da Revolta Federalista e não possuiu vínculo direto.<br>
-              d) INCORRETA: A revolta foi extremamente violenta, com combates armados e degolas.<br>
-              e) INCORRETA: O movimento se espalhou para Santa Catarina e Paraná.
-            </div>
-          </div>
-
+          <div class="fed-questao-card" id="fed-questao1"><div class="fed-num-questao">1</div><p class="fed-enunciado">(UFRGS) Quais proposições sobre o governo do PRR no Rio Grande do Sul estão corretas?<br>I - Enfrentou a Revolução Federalista de 1893 e a Revolução de 1923.<br>II - Adotou governo democrático com independência entre os três poderes.<br>III - Almejou desenvolvimento econômico capitalista do estado.</p><ul class="fed-alternativas" data-questao="fed1"><li data-correta="false">A) Apenas I</li><li data-correta="true">B) Apenas I e III</li><li data-correta="false">C) Apenas I e II</li><li data-correta="false">D) Apenas II e III</li><li data-correta="false">E) Todas estão corretas</li></ul><button class="fed-btn-revelar" data-questao="fed1">🔍 Revelar Comentário</button><div class="fed-comentario" id="fed-comentario-fed1"><strong>Resposta: B — Apenas I e III.</strong><br>I — Verdadeira. II — Falsa, o governo era autoritário. III — Verdadeira.</div></div>
           <hr class="fed-linha">
-
-          <!-- SEÇÃO: INCIDÊNCIA -->
-          <div class="fed-ornamento"><span>✦</span> <span>✧</span> <span>✦</span></div>
+          <div class="fed-ornamento"><span>✦</span><span>✧</span><span>✦</span></div>
           <h3 class="fed-titulo-secao">Incidência do Tema nos Vestibulares</h3>
-          <p style="text-align:center;font-style:italic;font-size:0.85rem;margin-bottom:18px;color:#5a3825;">A Revolução Federalista já foi tema de diversas questões em provas pelo Brasil.</p>
-
-          <div class="fed-moldura-incidencia">
-            <div class="fed-placa-incidencia">📷 Acervo de Questões 📷</div>
-            <div class="fed-imagem-wrapper">
-              <img src="Incidencia.jpeg" alt="Incidência do tema Revolução Federalista nos vestibulares" class="fed-imagem-incidencia">
-            </div>
-            <div class="fed-legenda" style="margin-top:10px;">Gráfico de incidência — Principais vestibulares (2010–2025)</div>
-          </div>
-
-          <!-- SEÇÃO: LINHA DO TEMPO -->
-          <div class="fed-ornamento"><span>✧</span> <span>✦</span> <span>✧</span></div>
+          <div class="fed-moldura-incidencia"><div class="fed-placa-incidencia">📷 Acervo de Questões 📷</div><div class="fed-imagem-wrapper"><img src="Incidencia.jpeg" alt="Incidência Revolução Federalista" class="fed-imagem-incidencia"></div><div class="fed-legenda" style="margin-top:10px;">Gráfico de incidência — Principais vestibulares (2010–2025)</div></div>
+          <div class="fed-ornamento"><span>✧</span><span>✦</span><span>✧</span></div>
           <h3 class="fed-titulo-secao">Cronologia Interativa</h3>
-          <p style="text-align:center;font-style:italic;font-size:0.8rem;margin-bottom:5px;color:#5a3825;">Arraste ou passe o mouse sobre os eventos para ver detalhes.</p>
+          <div class="fed-timeline-container" id="fed-timelineContainer"><div class="fed-timeline-linha" id="fed-timelineLinha"></div></div>
+          <hr class="fed-linha">
+          <footer style="text-align:center;font-size:0.75rem;color:#5a3825;letter-spacing:1px;padding-top:10px;"><p>⚜ SESI Rinaldo Campos Soares ⚜</p><p>Material educativo — Revolução Federalista (1893–1895)</p></footer>
+        </div>
+      </div>
+    </div>
 
-          <div class="fed-timeline-container" id="fed-timelineContainer">
-            <div class="fed-timeline-linha" id="fed-timelineLinha"></div>
+    <!-- ABA: Revolta da Chibata — visual EXATO do index(1).html -->
+    <div class="aba-conteudo" data-aba="Revolta da Chibata" style="display:none">
+      <div class="chibata-wrapper">
+        <div class="chibata-container">
+
+          <!-- CABEÇALHO DO JORNAL -->
+          <div class="chibata-header-jornal">
+            <div class="chibata-h1">Correio da Manhã</div>
+            <p class="chibata-subtitulo-jornal">Capital Federal, 24 de Novembro de 1910</p>
           </div>
 
-          <hr class="fed-linha">
+          <!-- MANCHETE -->
+          <div class="chibata-manchete">
+            <h2>ATTENTADO CONTRA A PATRIA E A REPUBLICA!</h2>
+            <p>Amotinados na Bahia de Guanabara ameaçam a Civilisação sob o pretexto da Chibata</p>
+          </div>
 
-          <!-- RODAPÉ -->
-          <footer style="text-align:center;font-size:0.75rem;color:#5a3825;letter-spacing:1px;padding-top:10px;">
-            <p>⚜ SESI Rinaldo Campos Soares ⚜</p>
-            <p>Material educativo — Revolução Federalista (1893–1895)</p>
-            <p style="margin-top:4px;font-size:0.65rem;">Lucas Viana, Stella Moronare, Ryan Pablo, Thallys Assis</p>
-            <p style="margin-top:4px;font-size:0.65rem;">Nicolle, Sofia Assis, Julia A, Sarah</p>
+          <!-- IMAGEM PRINCIPAL -->
+          <div class="chibata-imagem-principal">
+            <img src="Marinha.jpeg" alt="Couraçado São Paulo durante a Revolta da Chibata em 1910">
+            <p>Couraçado São Paulo, um dos navios tomados pelos revoltosos</p>
+          </div>
+
+          <!-- CONTEÚDO: ARTIGO + LATERAL -->
+          <div class="chibata-conteudo-cols">
+
+            <article class="chibata-artigo">
+              <p>Com profunda indignação e justificado assombro, a Capital da Republica despertou nestes ultimos dias sob a mira dos formidaveis canhões de sua propria esquadra. Os gloriosos couraçados Minas Geraes e São Paulo, orgulhos da nossa engenharia naval e symbolos do progresso e da pujança do nosso regimen republicano, encontram-se sequestrados por uma horda de marinheiros insubordinados, que voltaram as armas da Nação contra o peito de seus proprios concidadãos.</p>
+              <p>Qual o pretexto para tal acção de felonia? A justa e regulamentar punição physica applicada a um marujo facinoroso, de nome Marcelino, que, num acto de extrema selvageria, ferira um companheiro de farda a navalhadas. Em defesa deste criminoso de baixa estyrpe, a marinhagem amotinou-se, assassinando officiaes nobres e tomando de assalto as machinas de guerra que a Republica, com tanto suor do erario publico, adquiriu na Europa para a nossa defesa.</p>
+              <p>Agora, um marinheiro de nome João Cândido ousa intitular-se, num arremedo grotesco, «Almirante», exigindo o fim dos castigos corporaes e amnistia, numa affronta directa á hierarchia, á disciplina e á ordem civilisada.</p>
+              <p>É forçoso reconhecer, meus senhores, que estes actos de barbárie são uma herança nefasta dos tempos obscuros do Imperio. A monarchia, que por decadas manteve o Brazil acorrentado ao atraso e á frouxidão moral, legou-nos esta ralé indisciplinada que confunde a liberdade republicana com a anarchia.</p>
+              <p>Querem fazer crer que a Republica falha onde o Imperador triumpharia, uma mentira deslavada e vil! Foi a Republica que trouxe a luz da modernidade a este paiz! Foi a Republica que nos equipou com os «Dreadnoughts», o que ha de mais avançado e terrível nos mares do mundo!</p>
+              <div class="chibata-imagem-artigo pequena">
+                <img src="Chibata.jpeg" alt="Ilustração de castigo com chibata aplicado a marinheiro">
+                <p>Illustração dos castigos corporaes applicados aos marujos</p>
+              </div>
+              <p>Todavia, as modernas machinas de aço estão nas mãos de homens de mentalidade retrograda, incapazes de comprehender a nobreza do dever e a elevação moral exigidas pelo novo seculo. O uso da chibata, que os amotinados tanto repudiam, revela-se agora não um capricho, mas um mal necessario para conter os instinctos bestiaes daquelles que não respondem á voz da rasão.</p>
+              <p>Não podemos olvidar que a hydra do retrocesso manifesta-se sob variadas máscaras. O que vemos hoje na Guanabara é o mesmo germen da ignorância que incendiou o sertão de Canudos. Lá, o fanatismo de um messias; aqui, a audacia de um 'almirante' de cor que pretende deitar por terra a disciplina republicana.</p>
+              <p>O problema que ora enfrentamos não é de brutalidade dos officiaes, como querem fazer crer os sentimentalistas de gabinete. É um problema de formação. Homens toscos, analphabetos, criados na mais crassa ignorancia, não podem aspirar ao tratamento que se dispensa a um cidadão esclarecido.</p>
+              <p>O governo não póde, sob hypothese alguma, curvar-se á chantagem de canhões apontados para o coração do Rio de Janeiro. Confiamos na rectidão e na firmeza de animo do Exm. Sr. Presidente da Republica, Marechal Hermes da Fonseca. A Republica é a ordem e o progresso, e não tolerará que a indisciplina monarchica e o motim se instaurem no seio da nossa gloriosa Marinha!</p>
+              <p class="chibata-deus-salve">DEUS SALVE A REPUBLICA!</p>
+              <div class="chibata-imagem-artigo media">
+                <img src="Marinheiros.jpeg" alt="Marinheiros armados durante a Revolta da Chibata">
+                <p>Marinheiros revoltosos armados no convés do navio</p>
+              </div>
+            </article>
+
+            <aside class="chibata-lateral">
+              <div class="chibata-caixa">
+                <h3>O Líder dos Revoltosos</h3>
+                <img src="Marinheirp.jpeg" alt="João Cândido, o Almirante Negro">
+                <p>João Cândido Felisberto foi um marinheiro brasileiro nascido no Rio Grande do Sul, ficou conhecido por liderar a Revolta da Chibata, em 1910. Por sua coragem e liderança, ele ficou conhecido como "Almirante Negro". Mesmo com a promessa do governo de atender às exigências, João Cândido foi perseguido, preso e expulso da Marinha.</p>
+              </div>
+              <div class="chibata-caixa">
+                <h3>Exigências dos Rebeldes</h3>
+                <ul>
+                  <li>Fim da chibata na Marinha.</li>
+                  <li>Melhores condições de trabalho.</li>
+                  <li>Salários mais justos.</li>
+                  <li>Menos violência e maus-tratos.</li>
+                  <li>Anistia para os revoltosos.</li>
+                </ul>
+              </div>
+              <div class="chibata-caixa">
+                <h3>Chronologia dos Factos</h3>
+                <ul>
+                  <li><strong>1888:</strong> Continuam os maus-tratos na Marinha após a abolição.</li>
+                  <li><strong>1910:</strong> Um marinheiro recebe muitas chibatadas.</li>
+                  <li><strong>1910:</strong> Marinheiros tomam navios e iniciam a revolta.</li>
+                  <li><strong>1910:</strong> Governo promete acabar com a chibata.</li>
+                  <li><strong>1910:</strong> Ocorre repressão e prisões.</li>
+                </ul>
+              </div>
+            </aside>
+          </div>
+
+          <!-- QUESTÕES DO ENEM -->
+          <section class="chibata-secao-questoes">
+            <h2>Questões do ENEM</h2>
+
+            <div class="chibata-questao-card" id="chibataQ1">
+              <h4>ENEM Reaplicação/PPL 2010 - Questão 31</h4>
+              <div class="chibata-texto-base">
+                <p><strong>O Mestre-Sala dos Mares</strong></p>
+                <p>Há muito tempo nas águas da Guanabara / O dragão do mar reapareceu / Na figura de um bravo marinheiro / A quem a história não esqueceu / Conhecido como o almirante negro / Tinha a dignidade de um mestre-sala</p>
+                <p><em>BOSCO, J.; BLANC, A. O mestre-sala dos mares.</em></p>
+              </div>
+              <p class="chibata-enunciado">Na história brasileira, a chamada Revolta da Chibata, liderada por João Cândido, foi:</p>
+              <button class="chibata-alternativa" data-cq="1" data-cl="A">A) a rebelião de escravos contra os castigos físicos, ocorrida na Bahia, em 1848, e repetida no Rio de Janeiro.</button>
+              <button class="chibata-alternativa" data-cq="1" data-cl="B">B) a revolta, no porto de Salvador, em 1860, de marinheiros dos navios que faziam o tráfico negreiro.</button>
+              <button class="chibata-alternativa" data-cq="1" data-cl="C">C) o protesto, ocorrido no Exército, em 1865, contra o castigo de chibatadas em soldados desertores na Guerra do Paraguai.</button>
+              <button class="chibata-alternativa" data-cq="1" data-cl="D">D) a rebelião dos marinheiros, negros e mulatos, em 1910, contra os castigos e as condições de trabalho na Marinha de Guerra.</button>
+              <button class="chibata-alternativa" data-cq="1" data-cl="E">E) o protesto popular contra o aumento do custo de vida no Rio de Janeiro, em 1917, dissolvido, a chibatadas, pela polícia.</button>
+              <div class="chibata-explicacao" id="chibataExp1">
+                <h5>Resposta Correta: D</h5>
+                <p>A alternativa D é correta porque descreve exatamente o movimento ocorrido em 1910, caracterizado pela revolta dos marinheiros contra as chibatadas e as más condições de trabalho na Marinha.</p>
+              </div>
+            </div>
+
+            <div class="chibata-questao-card" id="chibataQ2">
+              <h4>ENEM 2018 - Questão 71</h4>
+              <div class="chibata-texto-base">
+                <p>Os seus líderes terminaram presos e assassinados. A "marujada" rebelde foi inteiramente expulsa da esquadra. Num sentido histórico, porém, eles foram vitoriosos. A "chibata" e outros castigos físicos infamantes nunca mais foram oficialmente utilizados.</p>
+                <p><em>MAESTRI, M. 1910: a revolta dos marinheiros – uma saga negra. São Paulo: Global, 1982.</em></p>
+              </div>
+              <p class="chibata-enunciado">A eclosão desse conflito foi o resultado da tensão acumulada na Marinha do Brasil pelo(a):</p>
+              <button class="chibata-alternativa" data-cq="2" data-cl="A">A) engajamento de civis analfabetos após a emergência de guerras externas.</button>
+              <button class="chibata-alternativa" data-cq="2" data-cl="B">B) insatisfação de militares positivistas após a consolidação da política dos governadores.</button>
+              <button class="chibata-alternativa" data-cq="2" data-cl="C">C) rebaixamento de comandantes veteranos após a repressão a insurreições milenaristas.</button>
+              <button class="chibata-alternativa" data-cq="2" data-cl="D">D) sublevação das classes populares do campo após a instituição do alistamento obrigatório.</button>
+              <button class="chibata-alternativa" data-cq="2" data-cl="E">E) manutenção da mentalidade escravocrata da oficialidade após a queda do regime imperial.</button>
+              <div class="chibata-explicacao" id="chibataExp2">
+                <h5>Resposta Correta: E</h5>
+                <p>A alternativa E é correta pois aponta a manutenção da mentalidade escravocrata da oficialidade, que continuava submetendo os marinheiros — em sua maioria negros e pobres — a castigos físicos e condições degradantes.</p>
+              </div>
+            </div>
+          </section>
+
+          <footer class="chibata-footer-jornal">
+            <p><strong>Trabalho Escolar - Revolta da Chibata - 1910 - História do Brasil</strong></p>
           </footer>
 
-        </div><!-- .fed-conteudo -->
-      </div><!-- .fed-jornal -->
-    </div><!-- /.aba-conteudo Revolta Federalista -->
-    <div class="aba-conteudo" data-aba="Revolução Farroupilha" style="display:none">
-      <div class="aba-vazia">
-        <p>Conteúdo em breve.</p>
-      </div>
-    </div>
-    <div class="aba-conteudo" data-aba="Proclamação da República" style="display:none">
-      <div class="aba-vazia">
-        <p>Conteúdo em breve.</p>
-      </div>
-    </div>
-    <div class="aba-conteudo" data-aba="Revolução de 1930" style="display:none">
-      <div class="aba-vazia">
-        <p>Conteúdo em breve.</p>
-      </div>
-    </div>
-    <div class="aba-conteudo" data-aba="Revolução Constitucionalista" style="display:none">
-      <div class="aba-vazia">
-        <p>Conteúdo em breve.</p>
+        </div>
       </div>
     </div>
 
-  </div><!-- /#conteudo-externo -->
+    <!-- Demais abas -->
+    <div class="aba-conteudo" data-aba="Proclamação da República" style="display:none"><div class="aba-vazia"><p>Conteúdo em breve.</p></div></div>
+    <div class="aba-conteudo" data-aba="Revolução de 1930" style="display:none"><div class="aba-vazia"><p>Conteúdo em breve.</p></div></div>
+    <div class="aba-conteudo" data-aba="Revolução Constitucionalista" style="display:none"><div class="aba-vazia"><p>Conteúdo em breve.</p></div></div>
+
+  </div>
 
   <script>
     function definirTema(tema) {
       document.documentElement.setAttribute('data-tema', tema);
       localStorage.setItem('tema', tema);
-      document.querySelectorAll('.tema-btn').forEach(b => b.classList.remove('ativo'));
-      const labels = { claro: 'Claro', escuro: 'Escuro', contraste: 'Contraste' };
+      const labels = { claro:'Claro', escuro:'Escuro', contraste:'Contraste' };
       document.querySelectorAll('.tema-btn').forEach(b => {
-        if (b.textContent.includes(labels[tema])) b.classList.add('ativo');
+        b.classList.toggle('ativo', b.textContent.trim() === labels[tema]);
       });
     }
-
     window.addEventListener('DOMContentLoaded', () => {
-      const atual = document.documentElement.getAttribute('data-tema') || 'claro';
-      definirTema(atual);
+      definirTema(document.documentElement.getAttribute('data-tema') || 'claro');
     });
 
     function selecionarAba(botao, nomeAba) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('ativo'));
       botao.classList.add('ativo');
       document.getElementById('aba-atual').textContent = nomeAba;
-
       document.querySelectorAll('.aba-conteudo').forEach(div => {
         div.style.display = div.dataset.aba === nomeAba ? 'block' : 'none';
       });
     }
 
-    // Quiz interativo — Forte de Copacabana
+    // Forte — quiz interativo
     document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.forte-questao').forEach((questao) => {
+      document.querySelectorAll('.forte-questao').forEach(questao => {
         const corretaIndex = parseInt(questao.dataset.correta, 10);
         const opcoes = questao.querySelectorAll('.forte-opcoes li');
         const feedback = document.createElement('div');
         feedback.className = 'resultado-texto';
         questao.appendChild(feedback);
-
         opcoes.forEach((op, i) => {
           op.style.cursor = 'pointer';
           op.addEventListener('click', () => {
             if (questao.dataset.respondida) return;
             questao.dataset.respondida = '1';
-            if (i === corretaIndex) {
-              op.classList.add('correta');
-              feedback.textContent = '✓ Você acertou!';
-              feedback.style.color = '#256029';
-            } else {
-              op.classList.add('errada');
-              opcoes[corretaIndex].classList.add('correta');
-              feedback.textContent = '✗ Você errou!';
-              feedback.style.color = '#9b2c2c';
-            }
+            if (i === corretaIndex) { op.classList.add('correta'); feedback.textContent = '✓ Você acertou!'; feedback.style.color = '#256029'; }
+            else { op.classList.add('errada'); opcoes[corretaIndex].classList.add('correta'); feedback.textContent = '✗ Você errou!'; feedback.style.color = '#9b2c2c'; }
           });
         });
       });
     });
-    // ══════════════════════════════════════
-    // REVOLTA FEDERALISTA — Scripts da aba
-    // ══════════════════════════════════════
+
+    // Federalista
     (function() {
-      const eventosTimeline = [
-        { ano: '1889', titulo: 'Proclamação da República', desc: 'Fim do Império. Início da República no Brasil.' },
-        { ano: '1891', titulo: 'Constituição de 1891', desc: 'Promulgada a primeira Constituição republicana, de caráter presidencialista.' },
-        { ano: '1892', titulo: 'Posse de Júlio de Castilhos', desc: 'Eleito indiretamente presidente do RS, gerando descontentamento federalista.' },
-        { ano: 'Fev/1893', titulo: 'Início da Revolta', desc: 'Federalistas pegam em armas. Gumercindo Saraiva lidera as tropas maragatas.' },
-        { ano: '1893-94', titulo: 'Aliança com a Revolta da Armada', desc: 'Federalistas unem-se à Revolta da Armada no RJ.' },
-        { ano: '1894', titulo: 'Morte de Gumercindo Saraiva', desc: 'Líder militar federalista é morto em combate.' },
-        { ano: 'Ago/1895', titulo: 'Tratado de Pelotas', desc: 'Anistia aos revoltosos e manutenção do poder castilhista.' },
+      const eventos = [
+        { ano:'1889', titulo:'Proclamação da República', desc:'Fim do Império. Início da República no Brasil.' },
+        { ano:'1891', titulo:'Constituição de 1891', desc:'Promulgada a primeira Constituição republicana.' },
+        { ano:'1892', titulo:'Posse de Júlio de Castilhos', desc:'Eleito indiretamente presidente do RS.' },
+        { ano:'Fev/1893', titulo:'Início da Revolta', desc:'Federalistas pegam em armas.' },
+        { ano:'1893-94', titulo:'Aliança com a Revolta da Armada', desc:'Federalistas unem-se à Revolta da Armada no RJ.' },
+        { ano:'1894', titulo:'Morte de Gumercindo Saraiva', desc:'Líder militar federalista é morto em combate.' },
+        { ano:'Ago/1895', titulo:'Tratado de Pelotas', desc:'Anistia aos revoltosos.' },
       ];
-
       let iniciado = false;
-
       function iniciarTimeline() {
-        const timelineLinha = document.getElementById('fed-timelineLinha');
-        if (!timelineLinha || timelineLinha.children.length > 0) return;
-        eventosTimeline.forEach((ev, index) => {
+        const linha = document.getElementById('fed-timelineLinha');
+        if (!linha || linha.children.length > 0) return;
+        eventos.forEach(ev => {
           const el = document.createElement('div');
           el.className = 'fed-evento';
-          el.innerHTML = `
-            <div class="fed-detalhe-evento"><strong>${ev.titulo}</strong><br><small>${ev.desc}</small></div>
-            <div class="fed-bolinha"></div>
-            <div class="fed-ano-ev">${ev.ano}</div>
-            <div class="fed-desc-ev">${ev.titulo}</div>`;
-          el.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const jaAtivo = this.classList.contains('ativo');
-            document.querySelectorAll('.fed-evento').forEach(x => x.classList.remove('ativo'));
-            if (!jaAtivo) this.classList.add('ativo');
-          });
-          timelineLinha.appendChild(el);
+          el.innerHTML = `<div class="fed-detalhe-evento"><strong>${ev.titulo}</strong><br><small>${ev.desc}</small></div><div class="fed-bolinha"></div><div class="fed-ano-ev">${ev.ano}</div><div class="fed-desc-ev">${ev.titulo}</div>`;
+          el.addEventListener('click', function(e) { e.stopPropagation(); const ja = this.classList.contains('ativo'); document.querySelectorAll('.fed-evento').forEach(x => x.classList.remove('ativo')); if (!ja) this.classList.add('ativo'); });
+          linha.appendChild(el);
         });
-        document.addEventListener('click', function(e) {
-          if (!e.target.closest('.fed-evento'))
-            document.querySelectorAll('.fed-evento').forEach(x => x.classList.remove('ativo'));
-        });
+        document.addEventListener('click', e => { if (!e.target.closest('.fed-evento')) document.querySelectorAll('.fed-evento').forEach(x => x.classList.remove('ativo')); });
         const tc = document.getElementById('fed-timelineContainer');
-        let isDown = false, startX, scrollPos;
+        let isDown=false, startX, scrollPos;
         tc.addEventListener('mousedown', e => { isDown=true; tc.style.cursor='grabbing'; startX=e.pageX-tc.offsetLeft; scrollPos=tc.scrollLeft; });
         tc.addEventListener('mouseleave', () => { isDown=false; tc.style.cursor='grab'; });
         tc.addEventListener('mouseup', () => { isDown=false; tc.style.cursor='grab'; });
         tc.addEventListener('mousemove', e => { if(!isDown) return; e.preventDefault(); tc.scrollLeft=scrollPos-(e.pageX-tc.offsetLeft-startX)*1.8; });
-        tc.addEventListener('touchstart', e => { startX=e.touches[0].pageX-tc.offsetLeft; scrollPos=tc.scrollLeft; isDown=true; }, {passive:true});
-        tc.addEventListener('touchend', () => isDown=false);
-        tc.addEventListener('touchmove', e => { if(!isDown) return; tc.scrollLeft=scrollPos-(e.touches[0].pageX-tc.offsetLeft-startX)*1.8; }, {passive:true});
       }
-
-      function iniciarQuestoes() {
+      function iniciarQuestoesFed() {
         document.querySelectorAll('.fed-alternativas').forEach(lista => {
           lista.querySelectorAll('li').forEach(li => {
             li.addEventListener('click', function() {
@@ -849,63 +660,69 @@
             const qId = this.getAttribute('data-questao');
             const lista = document.querySelector(`.fed-alternativas[data-questao="${qId}"]`);
             const comentario = document.getElementById('fed-comentario-' + qId);
-            const selecionada = lista ? lista.querySelector('.fed-selecionada') : null;
-            if (!selecionada) { alert('Selecione uma alternativa antes de revelar.'); return; }
+            const sel = lista ? lista.querySelector('.fed-selecionada') : null;
+            if (!sel) { alert('Selecione uma alternativa antes de revelar.'); return; }
             lista.querySelectorAll('li').forEach(li => { if (li.getAttribute('data-correta')==='true') li.classList.add('fed-correta'); });
-            if (selecionada.getAttribute('data-correta')==='false') selecionada.classList.add('fed-errada');
+            if (sel.getAttribute('data-correta')==='false') sel.classList.add('fed-errada');
             if (comentario) { comentario.classList.add('fed-visivel'); comentario.scrollIntoView({behavior:'smooth',block:'center'}); }
           });
         });
       }
-
-      function iniciarVideos() {
-        function attachVideo(containerId, placeholderId, src, isIframe) {
-          const placeholder = document.getElementById(placeholderId);
-          const container = document.getElementById(containerId);
-          if (!placeholder || !container) return;
-          placeholder.addEventListener('click', function() {
-            let el;
-            if (isIframe) {
-              el = document.createElement('iframe');
-              el.src = src;
-              el.allow = 'autoplay; encrypted-media';
-              el.allowFullscreen = true;
-              el.frameBorder = '0';
-            } else {
-              el = document.createElement('video');
-              el.src = src;
-              el.controls = true;
-              el.autoplay = true;
-            }
-            el.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:3px solid #3d2b1a;background:#000;';
-            container.innerHTML = '';
-            container.appendChild(el);
+      function iniciarVideosFed() {
+        function attach(cId, pId, src) {
+          const ph = document.getElementById(pId), ct = document.getElementById(cId);
+          if (!ph || !ct) return;
+          ph.addEventListener('click', function() {
+            const iframe = document.createElement('iframe');
+            iframe.src = src; iframe.allow = 'autoplay; encrypted-media'; iframe.allowFullscreen = true; iframe.frameBorder = '0';
+            iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:3px solid #3d2b1a;background:#000;';
+            ct.innerHTML = ''; ct.appendChild(iframe);
           });
         }
-        attachVideo('fed-containerEntrevista', 'fed-placeholderEntrevista', 'https://drive.google.com/file/d/154mda35MkFSrxaKIISc4MBtBkwHOHSdJ/preview', true);
-        attachVideo('fed-containerExplicativo', 'fed-placeholderExplicativo', 'https://drive.google.com/file/d/1MWO3McsUhKexKvG3lPJSbVZ_Kt3xB--Y/preview', true);
+        attach('fed-containerEntrevista','fed-placeholderEntrevista','https://drive.google.com/file/d/154mda35MkFSrxaKIISc4MBtBkwHOHSdJ/preview');
+        attach('fed-containerExplicativo','fed-placeholderExplicativo','https://drive.google.com/file/d/1MWO3McsUhKexKvG3lPJSbVZ_Kt3xB--Y/preview');
       }
-
       function iniciarTudo() {
-        if (iniciado) return;
-        iniciado = true;
-        iniciarTimeline();
-        iniciarQuestoes();
-        iniciarVideos();
+        if (iniciado) return; iniciado = true;
+        iniciarTimeline(); iniciarQuestoesFed(); iniciarVideosFed();
       }
-
-      // Observa quando a aba se torna visível
       const observer = new MutationObserver(() => {
         const aba = document.querySelector('[data-aba="Revolta Federalista"]');
         if (aba && aba.style.display !== 'none') iniciarTudo();
       });
       document.addEventListener('DOMContentLoaded', () => {
         const ext = document.getElementById('conteudo-externo');
-        if (ext) observer.observe(ext, { subtree: true, attributes: true, attributeFilter: ['style'] });
+        if (ext) observer.observe(ext, { subtree:true, attributes:true, attributeFilter:['style'] });
       });
     })();
 
+    // Chibata — quiz interativo (estilo index(1).html)
+    (function() {
+      const corretas = { '1':'D', '2':'E' };
+      const respondidas = {};
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.chibata-alternativa').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const q = this.getAttribute('data-cq');
+            const l = this.getAttribute('data-cl');
+            if (respondidas[q]) return;
+            respondidas[q] = true;
+            const correta = corretas[q];
+            document.querySelectorAll(`.chibata-alternativa[data-cq="${q}"]`).forEach(alt => {
+              alt.disabled = true;
+              const al = alt.getAttribute('data-cl');
+              if (al === correta) alt.classList.add('correta');
+              else if (al === l) alt.classList.add('errada');
+            });
+            const exp = document.getElementById('chibataExp' + q);
+            if (exp) {
+              exp.style.display = 'block';
+              exp.classList.add(l === correta ? 'correta-bg' : 'errada-bg');
+            }
+          });
+        });
+      });
+    })();
   </script>
-
 </body>
 </html>
